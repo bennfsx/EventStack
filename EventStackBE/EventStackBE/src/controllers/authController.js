@@ -1,0 +1,94 @@
+const bcrypt = require("bcrypt");
+const jwt = require("jsonwebtoken");
+const { v4: uuidv4 } = require("uuid");
+const pool = require("../db/db"); // Import your PostgreSQL connection pool
+
+const signup = async (req, res) => {
+  try {
+    // Check if the email is already registered
+    const existingUser = await pool.query(
+      "SELECT * FROM Users WHERE email = $1",
+      [req.body.email]
+    );
+    if (existingUser.rows.length > 0) {
+      return res.status(400).json({
+        status: "error",
+        msg: "Duplicate email, user already registered",
+      });
+    }
+
+    // Hash the password
+    const passwordHash = await bcrypt.hash(req.body.password, 12);
+
+    // Insert the new user into the database
+    await pool.query(
+      "INSERT INTO Users (UserType, Email, Password) VALUES ($1, $2, $3)",
+      [req.body.usertype, req.body.email, passwordHash]
+    );
+
+    res.status(200).json({ status: "ok", msg: "User registered successfully" });
+  } catch (err) {
+    console.error("Error registering user:", err.message);
+    res.status(400).json({ status: "error", msg: "Failed registration" });
+  }
+};
+
+const signin = async (req, res) => {
+  try {
+    // Check if the user exists in the database
+    const result = await pool.query("SELECT * FROM Users WHERE email = $1", [
+      req.body.email,
+    ]);
+    const user = result.rows[0];
+    if (!user) {
+      return res.status(400).json({ status: "error", msg: "Not authorized" });
+    }
+
+    // Compare the provided password with the hashed password stored in the database
+    const passwordMatch = await bcrypt.compare(
+      req.body.password,
+      user.password
+    );
+    if (!passwordMatch) {
+      return res.status(400).json({ status: "error", msg: "Failed login" });
+    }
+
+    // Generate JWT token
+    const token = jwt.sign({ userId: user.id }, process.env.JWT_SECRET, {
+      expiresIn: "1h",
+    });
+
+    res.json({ status: "ok", token });
+  } catch (err) {
+    console.error("Failed login:", err.message);
+    res.status(400).json({ status: "error", msg: "Failed login" });
+  }
+};
+
+const refresh = async (req, res) => {
+  const refreshToken = req.body.refreshToken;
+  if (!refreshToken) {
+    return res
+      .status(401)
+      .json({ status: "error", msg: "No refresh token provided" });
+  }
+
+  try {
+    // Verify the refresh token
+    const decoded = jwt.verify(refreshToken, process.env.JWT_REFRESH_SECRET);
+
+    // Generate a new access token
+    const accessToken = jwt.sign(
+      { userId: decoded.userId },
+      process.env.JWT_SECRET,
+      { expiresIn: "1h" }
+    );
+
+    res.json({ status: "ok", accessToken });
+  } catch (err) {
+    console.error("Failed to refresh token:", err.message);
+    res.status(403).json({ status: "error", msg: "Failed to refresh token" });
+  }
+};
+
+module.exports = { signup, signin, refresh };
