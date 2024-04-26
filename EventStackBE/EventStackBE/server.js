@@ -53,4 +53,5 @@ app.get("/api/getUsers", getUsers);
 app.listen(PORT, () => {
   console.log(`Server listening on the port ${PORT}`);
 });
+
 app.use("/auth", authRouter);
