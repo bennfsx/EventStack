@@ -54,7 +54,7 @@ const signin = async (req, res) => {
     }
 
     // Generate JWT token
-    const token = jwt.sign({ userId: user.id }, process.env.JWT_SECRET, {
+    const token = jwt.sign({ userId: user.id }, process.env.ACCESS_SECRET, {
       expiresIn: "1h",
     });
 
@@ -75,7 +75,7 @@ const refresh = async (req, res) => {
 
   try {
     // Verify the refresh token
-    const decoded = jwt.verify(refreshToken, process.env.JWT_REFRESH_SECRET);
+    const decoded = jwt.verify(refreshToken, process.env.REFRESH_SECRET);
 
     // Generate a new access token
     const accessToken = jwt.sign(
