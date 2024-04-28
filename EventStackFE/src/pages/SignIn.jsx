@@ -24,12 +24,12 @@ function SignIn() {
     };
 
     try {
-      const response = await axiosAPI.post("/checkusers", loginData);
+      const response = await axiosAPI.post("/auth/signin", loginData);
 
       console.log("User login successful", response.data);
       handleSuccessLogin();
     } catch (error) {
-      if (error.response && error.response.status === 404) {
+      if (error.response && error.response.status === 400) {
         console.error("User account not found:", error.response.data);
         setLoginError("Invalid username or password");
 
