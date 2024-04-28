@@ -1,17 +1,17 @@
 import React, { useState } from "react";
 import Header from "../partials/Header";
-import { PhotoIcon, UserCircleIcon } from "@heroicons/react/24/solid";
-import style from "./CreateEvent.module.css";
 import { Calendar } from "primereact/calendar";
 import axiosAPI from "../../axiosAPI";
 import { format } from "date-fns";
+import { PhotoIcon } from "@heroicons/react/24/solid";
+import style from "./CreateEvent.module.css";
 import SuccessScreen from "../partials/SuccessScreen";
 
 function CreateEvent() {
   const [eventName, setEventName] = useState("");
   const [eventDescription, setEventDescription] = useState("");
   const [datetime12h, setDateTime12h] = useState("");
-  const [previewImage, setPreviewImage] = useState(""); // State to store the preview image URL
+  const [previewImage, setPreviewImage] = useState(null);
   const [eventSeat, setEventSeat] = useState("");
   const [launchDate, setLaunchDate] = useState("");
   const [eventVenue, setEventVenue] = useState("");
@@ -19,25 +19,20 @@ function CreateEvent() {
   const [state, setState] = useState("");
   const [eventAddress, setEventAddress] = useState("");
   const [postalCode, setPostalCode] = useState("");
-
   const [isEventCreated, setIsEventCreated] = useState(false);
-  const [eventNameError, setEventNameError] = useState(""); // State to hold the event name error message
+  const [eventNameError, setEventNameError] = useState("");
 
-  // Function to handle file upload
   const handleFileUpload = (event) => {
-    const file = event.target.files[0]; // Get the uploaded file
+    const file = event.target.files[0];
     if (file) {
-      const reader = new FileReader(); // Create a new FileReader object
+      const reader = new FileReader();
       reader.onloadend = () => {
-        // Callback function to set the preview image URL
         setPreviewImage(reader.result);
-        console.log(previewImage);
       };
-      reader.readAsDataURL(file); // Read the uploaded file as a data URL
+      reader.readAsDataURL(file);
     }
   };
 
-  // Function to clear the preview image
   const clearPreviewImage = () => {
     setPreviewImage(null);
   };
@@ -45,25 +40,27 @@ function CreateEvent() {
   const handleEventCreation = async (event) => {
     event.preventDefault();
 
-    const requestData = {
-      eventName: eventName,
-      eventDescription: eventDescription,
-      datetime12h: datetime12h,
-      // previewImage: previewImage,
-      eventSeat: eventSeat,
-      launchDate: launchDate,
-      eventVenue: eventVenue,
-      city: city,
-      state: state,
-      eventAddress: eventAddress,
-      postalCode: postalCode,
-    };
+    const formData = new FormData();
+    formData.append("eventname", eventName);
+    formData.append("description", eventDescription);
+    formData.append("datetime", format(datetime12h, "yyyy-MM-dd HH:mm:ss"));
+    formData.append("eventimage", previewImage);
+    formData.append("seatcapacity", eventSeat);
+    formData.append("launchdate", format(launchDate, "yyyy-MM-dd"));
+    formData.append("venue", eventVenue);
+    formData.append("city", city);
+    formData.append("state", state);
+    formData.append("address", eventAddress);
+    formData.append("postalcode", postalCode);
 
     try {
-      const response = await axiosAPI.post("/createevent", requestData);
-      console.log("Success", response.data);
-      console.log(response.status);
+      const response = await axiosAPI.post("/api/createevent", formData, {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+      });
       setIsEventCreated(true);
+      console.log(response);
     } catch (error) {
       if (error.response && error.response.status === 409) {
         setEventNameError("Event name already exists");
@@ -71,10 +68,6 @@ function CreateEvent() {
         console.error("Error creating Event:", error.response);
       }
     }
-  };
-
-  const handleContinue = () => {
-    // Logic to handle what happens when the user clicks "Continue"
   };
 
   if (isEventCreated) {

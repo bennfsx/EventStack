@@ -1,0 +1,13 @@
+{
+  "type": "service_account",
+  "project_id": "western-passkey-421102",
+  "private_key_id": "b0ccb24137a51e40ebb90179fafc76cce3dd77b7",
+  "private_key": "-----BEGIN PRIVATE KEY-----\nMIIEvgIBADANBgkqhkiG9w0BAQEFAASCBKgwggSkAgEAAoIBAQCnSy1xAqD6hHjo\nBRn+SWfE3COHcK83vnI2N7A7GnReaNUcY+rghRS31FZ2RB5qo8Gtiu6y5rjljA0w\n+/wMUwp/Vfl8/qrfv/OLR2Y8E29CQ2gISAQ8H0rs9xFp0neRsgyGsL729VwSvi2H\nj/3JTHQvesrwx9l+QkkjCUy2axmPUqkwqaOud1rJMqP7AKBsMvDTHYabobwoAfWO\n0KS3/D/m4Dw/3zEaIM1emDzmvV/RLpDSD5o/nZjWusnGQoCJuQm6KcSCbnsb6rev\nlaGIVIIuelLWHMvM2zKU4EidHjWDNly091lTZAO8+itEmiNv4knEYUJK0EreRojm\n7QOv5ht1AgMBAAECggEACwQYyG3HYuexPHoFhaiYxC5IyqThbNbGF4rgOGwcCJF3\nowhzUXiB7j71uJDwvc3ttXtGD5LAzyDDR5v4M2mOcecb6B6u6s/tfhjkAwW2mFLu\n+UigusLGwMbeJy08QWRLjdz6njF28CcEwX36VLSLnArGbUeDq1w7C6sTmZmA096e\nzcjj3B8pnGQ56YjwlGf1KCJJBA8m0NuYZ5p4v0imT2FVhutkmpKHIFHJsI6aoffP\no/dY4VVpZhbdeuLBH/HskhFfjAKnyonJbn/yTm/syiElxSzOJvxagToH7BsHbecS\npa64T7NgeKqtm1UIshe84QQIzlyxwtb4ok/X2t0TawKBgQDXVeiLWMqruBJKFrTe\nt2s9P9EaBYTHdSjqzVVu0v2ESvdj7Ryizg8ND2jsBc0tNY7j5b6xYnEjH2HTuJdj\ns9/SPtHirbvuXO5thmCX1ih38F1gOpGpGd2TuAzsXWYFNakLiVaYVApzeX/qgF2a\n4mWGHylMm3r7tcEPCynbIbpVhwKBgQDG4sBJICLO1IKKA+w+M1befR2rmDWFrcBg\n6Gc6atvve8dViPRav8wB7W3HzAKbCdDgOCijxhwxK7CpyAL3a+2Ig8zEeU0m+CL/\nm2hNgcCYnCQDSY6s5mRdfG1CjgaysdWJmWjQg75HzOLKRaqpSlcCENUF04x4cZdV\nTMUx8grGIwKBgQCoRI1vNndJMJG6K3wy/YljV1cCyoUzh63trX6xF1bb5ejjwQm7\nfuHsBrqqlO38AfoixAj7fD2EgKVlWL2UP58LH+PLCo/sd9oo4/TfMY52CvIsnBfu\n2DN5lz0iBuoN8Byk0zFD34g7LBp1GNIMkhVbdUZEgsrbnu+53bNbdUOySQKBgGFx\ny+CIPEW2XVcd4OwA33kXOChQ5ThgDzfr5lf671OBBANmnMKx4lS3behMjqJDxvF0\n0oSblkiJLX+iHcH4QWN3oCZLgH+taAhwrkP7ZM/hAMwTiDIyl84uHqJTT/jRpNxM\nK8yuH9ayDhQo2hsj70l10cmPAu4oSYtjl+KGwrydAoGBAKcQwCeGmLTGjM5pzMGS\n4TGz/h9hymQKo/0ntJlB1XOznsc7qG00gQr76zwOFEMkUhEqFgN2lDDL0+dTS9uD\nbvfvSgZyeqXuL45J4Hq8kBkR/FKQhD7B3AFJoUp4ttoABLViWy8OzIQNG2GXq/aV\nR7gg+Z7veoJk/vPO5/CYZXGC\n-----END PRIVATE KEY-----\n",
+  "client_email": "eventstackimg@western-passkey-421102.iam.gserviceaccount.com",
+  "client_id": "103695167851522707374",
+  "auth_uri": "https://accounts.google.com/o/oauth2/auth",
+  "token_uri": "https://oauth2.googleapis.com/token",
+  "auth_provider_x509_cert_url": "https://www.googleapis.com/oauth2/v1/certs",
+  "client_x509_cert_url": "https://www.googleapis.com/robot/v1/metadata/x509/eventstackimg%40western-passkey-421102.iam.gserviceaccount.com",
+  "universe_domain": "googleapis.com"
+}
