@@ -1,20 +1,14 @@
-import { createContext, useEffect, useState } from "react";
-
-// import { createTheme } from "@mui/material";
+import React, { createContext, useState } from "react";
 
 export const UserContext = createContext();
-export function UserProvider({ children }) {
-  //Add all the stuff we will keep in context below
 
-  const [pageTitle, setPageTitle] = useState("");
-  const [authenticated, setAuthenticated] = useState(false);
+export function UserProvider({ children }) {
   const [user, setUser] = useState({
     accessToken: null,
     email: null,
     firstName: null,
     lastName: null,
     usertype: null,
-    createdDate: null,
     id: null,
   });
 
@@ -23,9 +17,11 @@ export function UserProvider({ children }) {
       const sessionAccess = await sessionStorage.getItem("access");
       const usertype = await sessionStorage.getItem("usertype");
       const id = await sessionStorage.getItem("id");
-      await setUser({
-        ...user,
+      setUser({
         accessToken: sessionAccess,
+        email: null, // Make sure to set other properties to null initially
+        firstName: null,
+        lastName: null,
         usertype: usertype,
         id: id,
       });
@@ -33,7 +29,6 @@ export function UserProvider({ children }) {
   };
 
   const logout = () => {
-    console.log("logout function");
     sessionStorage.clear("access");
     sessionStorage.clear("usertype");
     setUser({
@@ -42,24 +37,16 @@ export function UserProvider({ children }) {
       firstName: null,
       lastName: null,
       usertype: null,
-      createdDate: null,
       id: null,
     });
   };
 
-  //here  are the items we will pass to the context
   const value = {
-    pageTitle,
-    setPageTitle,
-    authenticated,
-    setAuthenticated,
     user,
     setUser,
-    logout,
     checkSession,
+    logout,
   };
-
-  //return the context provider below using thew value object above
 
   return <UserContext.Provider value={value}>{children}</UserContext.Provider>;
 }

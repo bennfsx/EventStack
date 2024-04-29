@@ -28,6 +28,8 @@ function App() {
 
   useEffect(() => {
     checkSession();
+    console.log("user", user);
+    console.log("Check SESSINON", checkSession);
 
     AOS.init({
       once: true,
@@ -70,7 +72,7 @@ function App() {
   } else {
     return (
       <Routes>
-        {/* <Route exact path="/home" element={<Home />} /> */}
+        <Route exact path="/home" element={<Home />} />
         <Route path="/signin" element={<SignIn />} />
         <Route path="/signupuser" element={<SignUpUser />} />
         <Route path="/signuporganizer" element={<SignUpOrganizer />} />

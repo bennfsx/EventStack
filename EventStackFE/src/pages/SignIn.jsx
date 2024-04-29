@@ -1,14 +1,17 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import { Link, Route, useNavigate } from "react-router-dom";
 import Header from "../partials/Header";
 import Banner from "../partials/Banner";
+import { UserContext } from "../context/UserContext";
 import axiosAPI from "../axiosAPI";
 
 function SignIn() {
+  const { setUser } = useContext(UserContext);
+  const navigate = useNavigate();
+
   const handleSuccessLogin = () => {
     navigate("/home");
   };
-  const navigate = useNavigate();
 
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -17,7 +20,6 @@ function SignIn() {
   const handleUserLogin = async (event) => {
     event.preventDefault();
 
-    // Prepare the data to send to the API
     const loginData = {
       email: email,
       password: password,
@@ -25,22 +27,20 @@ function SignIn() {
 
     try {
       const response = await axiosAPI.post("/auth/signin", loginData);
-
       console.log("User login successful", response.data);
+
+      setUser(response.data.user); // Update user object after login
+
       handleSuccessLogin();
     } catch (error) {
       if (error.response && error.response.status === 400) {
         console.error("User account not found:", error.response.data);
         setLoginError("Invalid username or password");
-
-        // Update the UI to show an error message to the user
       } else {
-        // Handle other potential errors
         console.error("Error during login:", error.response);
       }
     }
   };
-
   return (
     <div className="flex flex-col min-h-screen overflow-hidden">
       {/*  Site header */}
