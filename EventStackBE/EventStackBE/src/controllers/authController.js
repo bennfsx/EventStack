@@ -112,9 +112,14 @@ const signin = async (req, res) => {
       return res.status(400).json({ status: "error", msg: "Failed login" });
     }
 
-    // Generate JWT token
-    const token = jwt.sign({ userId: user.id }, process.env.ACCESS_SECRET, {
+    const tokenPayload = {
+      userId: user.userid,
+      usertype: user.usertype, // Include the user's type in the payload
+    };
+
+    const token = jwt.sign(tokenPayload, process.env.ACCESS_SECRET, {
       expiresIn: "1h",
+      jwtid: uuidv4(),
     });
 
     res.json({ status: "ok", token });

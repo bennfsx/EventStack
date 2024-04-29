@@ -24,7 +24,7 @@ import { UserProvider } from "./context/UserContext";
 
 function App() {
   const location = useLocation();
-  const { user, checkSession } = useUser();
+  const { user = { usertype: null }, checkSession } = useUser(); // Provide a default value for user
 
   useEffect(() => {
     checkSession();
@@ -37,7 +37,7 @@ function App() {
       duration: 700,
       easing: "ease-out-cubic",
     });
-  }, []);
+  }, [checkSession, user]); // Include checkSession and user in the dependencies array
 
   useEffect(() => {
     document.querySelector("html").style.scrollBehavior = "auto";

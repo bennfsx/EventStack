@@ -16,14 +16,11 @@ export function UserProvider({ children }) {
     if (sessionStorage.getItem("access") !== null) {
       const sessionAccess = await sessionStorage.getItem("access");
       const usertype = await sessionStorage.getItem("usertype");
-      const id = await sessionStorage.getItem("id");
+      const id = await sessionStorage.getItem("userId");
       setUser({
         accessToken: sessionAccess,
-        email: null, // Make sure to set other properties to null initially
-        firstName: null,
-        lastName: null,
+        userId: null,
         usertype: usertype,
-        id: id,
       });
     }
   };
@@ -37,7 +34,6 @@ export function UserProvider({ children }) {
       firstName: null,
       lastName: null,
       usertype: null,
-      id: null,
     });
   };
 

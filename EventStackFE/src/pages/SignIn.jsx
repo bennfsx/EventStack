@@ -4,6 +4,7 @@ import Header from "../partials/Header";
 import Banner from "../partials/Banner";
 import { UserContext } from "../context/UserContext";
 import axiosAPI from "../axiosAPI";
+import { jwtDecode } from "jwt-decode";
 
 function SignIn() {
   const { setUser } = useContext(UserContext);
@@ -29,18 +30,35 @@ function SignIn() {
       const response = await axiosAPI.post("/auth/signin", loginData);
       console.log("User login successful", response.data);
 
-      setUser(response.data.user); // Update user object after login
+      // Decode the JWT token to extract userId and usertype
+      const decodedToken = jwtDecode(response.data.token);
+      if (decodedToken) {
+        const { userId, usertype } = decodedToken;
+        console.log("Decoded token:", decodedToken);
 
-      handleSuccessLogin();
+        // Set the user context with userId, usertype, and accessToken
+        setUser({
+          accessToken: response.data.token,
+          userId: userId,
+          usertype: usertype,
+        });
+
+        handleSuccessLogin();
+      } else {
+        console.error("Error decoding token");
+        setLoginError("Failed to decode token");
+      }
     } catch (error) {
       if (error.response && error.response.status === 400) {
         console.error("User account not found:", error.response.data);
         setLoginError("Invalid username or password");
       } else {
         console.error("Error during login:", error.response);
+        setLoginError("Failed to log in");
       }
     }
   };
+
   return (
     <div className="flex flex-col min-h-screen overflow-hidden">
       {/*  Site header */}
