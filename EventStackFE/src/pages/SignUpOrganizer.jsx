@@ -1,16 +1,22 @@
 import React, { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import axiosAPI from "../axiosAPI"; // Assuming axiosAPI is correctly set up as shown before
 
 import Header from "../partials/Header";
 
 function SignUpOrganizer() {
   const [companyName, setcompanyName] = useState("");
-  const [uenNo, setuenNo] = useState("");
+  const [uennumber, setuennumber] = useState("");
   const [email, setEmail] = useState("");
-  const [mobile, setMobile] = useState("");
+  const [phone, setPhone] = useState("");
   const [address, setAddress] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPwd, setConfirmPwd] = useState("");
+
+  const handleSuccessSignup = () => {
+    navigate("/home");
+  };
+  const navigate = useNavigate();
 
   // Email validation function
   const validateEmail = (email) => {
@@ -19,7 +25,7 @@ function SignUpOrganizer() {
       .match(/^[^\s@]+@[^\s@]+\.[^\s@]+$/);
   };
 
-  const handleCreateNewUserAccount = async (event) => {
+  const handleCreateNewOrgAccount = async (event) => {
     event.preventDefault();
 
     if (!validateEmail(email)) {
@@ -33,41 +39,21 @@ function SignUpOrganizer() {
     }
 
     const requestData = {
-      action: "createUser",
-      values: {
-        companyName: companyName,
-        uenNo: uenNo,
-        email: email,
-        mobile: mobile,
-        address: address,
-        password: password,
-      },
+      companyName: companyName,
+      uennumber: uennumber,
+      email: email,
+      phone: phone,
+      address: address,
+      password: password,
     };
 
     try {
-      const response = await fetch(
-        "https://asia-southeast1-qrfyp2024.cloudfunctions.net/fyp-api/register",
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          mode: "no-cors",
-          body: JSON.stringify(requestData),
-        }
-      );
-
-      if (!response.ok) {
-        throw new Error("Failed to create account");
-      }
-
-      const data = await response.json();
-      console.log("Account created successfully", data);
-      // Redirect user or show success message here
+      const response = await axiosAPI.put("/auth/signupOrg", requestData);
+      console.log("Account created successfully", response.data);
+      handleSuccessSignup();
+      console.log(response.status);
     } catch (error) {
-      console.error("Error creating account:", error);
-      // Handle/display error message here
-      console.log(requestData);
+      console.error("Error creating account:", error.response);
     }
   };
 
@@ -89,18 +75,18 @@ function SignUpOrganizer() {
 
               {/* Form */}
               <div className="max-w-sm mx-auto">
-                <form onSubmit={handleCreateNewUserAccount}>
+                <form onSubmit={handleCreateNewOrgAccount}>
                   <div className="flex flex-wrap -mx-48 mb-4">
                     <div className="w-full px-3">
                       <h4 className="h4">Company Information</h4>
                       <label
                         className="block text-gray-800 text-sm font-medium mb-1"
-                        htmlFor="CompanyName"
+                        htmlFor="companyName"
                       >
                         Company Name <span className="text-red-600">*</span>
                       </label>
                       <input
-                        id="CompanyName"
+                        id="companyName"
                         type="text"
                         className="form-input w-full text-gray-800"
                         placeholder="Enter your company name"
@@ -113,17 +99,17 @@ function SignUpOrganizer() {
                     <div className="w-full px-3">
                       <label
                         className="block text-gray-800 text-sm font-medium mb-1"
-                        htmlFor="UenNo"
+                        htmlFor="uennumber"
                       >
                         UEN No <span className="text-red-600">*</span>
                       </label>
                       <input
-                        id="UenNo"
+                        id="uennumber"
                         type="text"
                         className="form-input w-full text-gray-800"
                         placeholder="Enter your UEN number"
                         required
-                        onChange={(e) => setuenNo(e.target.value)}
+                        onChange={(e) => setuennumber(e.target.value)}
                       />
                     </div>
                   </div>
@@ -149,17 +135,17 @@ function SignUpOrganizer() {
                     <div className="w-full px-3">
                       <label
                         className="block text-gray-800 text-sm font-medium mb-1"
-                        htmlFor="mobile"
+                        htmlFor="phone"
                       >
                         Mobile Number<span className="text-red-600">*</span>
                       </label>
                       <input
-                        id="mobile"
+                        id="phone"
                         type="number"
                         className="form-input w-full text-gray-800"
                         placeholder="Enter your mobile number"
                         required
-                        onChange={(e) => setMobile(e.target.value)}
+                        onChange={(e) => setPhone(e.target.value)}
                       />
                     </div>
                   </div>

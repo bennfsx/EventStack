@@ -46,7 +46,7 @@ function SignUpUser() {
     };
 
     try {
-      const response = await axiosAPI.post("/register", requestData);
+      const response = await axiosAPI.put("/auth/signupAtt", requestData);
       console.log("Account created successfully", response.data);
       handleSuccessSignup();
       console.log(response.status);
