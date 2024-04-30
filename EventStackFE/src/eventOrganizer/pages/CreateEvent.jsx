@@ -52,7 +52,7 @@ function CreateEvent() {
       const formData = new FormData();
       formData.append("file", new Blob([dataBuffer]), filename);
 
-      const response = await fetch("/upload-image", {
+      const response = await fetch("/api/upload-image", {
         method: "POST",
         body: formData,
       });
