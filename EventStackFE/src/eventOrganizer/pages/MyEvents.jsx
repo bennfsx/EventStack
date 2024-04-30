@@ -25,14 +25,14 @@ function MyEvents() {
   // Refactor the fetching logic into a standalone function
   const fetchEvents = async () => {
     try {
-      const response = await axiosAPI.post("/checkevents");
-      const filteredEvents = response.data.map((event) => ({
-        eventID: event.eventID,
-        eventDescription: event.eventDescription,
-        eventName: event.eventName,
-        launchDate: event.launchDate,
-      }));
-      setEvents(filteredEvents);
+      const response = await axiosAPI.post("/api/getallevent");
+      // const filteredEvents = response.data.map((event) => ({
+      //   eventID: event.eventID,
+      //   eventDescription: event.eventDescription,
+      //   eventName: event.eventName,
+      //   launchDate: event.launchDate,
+      // }));
+      setEvents(response.data);
     } catch (error) {
       console.error("Error fetching events:", error);
     }
@@ -93,7 +93,7 @@ function MyEvents() {
           title="Generate QR Code"
           size={30}
           color="#D882BC"
-          onClick={() => handleGenerateQR(event.eventID, event.eventName)}
+          onClick={() => handleGenerateQR(event.eventid, event.eventname)}
         />
         <AiOutlineEye
           className="cursor-pointer"
@@ -172,15 +172,16 @@ function MyEvents() {
                   scope="row"
                   className="px-6 py-4 font-medium text-gray-800 whitespace-nowrap dark:text-white"
                 >
-                  {event.eventID}
+                  {event.eventid}
                 </th>
-                <td className="px-6 py-4">{event.eventName}</td>
-                <td className="px-6 py-4">{event.eventDescription}</td>
+                <td className="px-6 py-4">{event.eventname}</td>
+                <td className="px-6 py-4">{event.eventdescription}</td>
+
                 <td className="px-6 py-4">
-                  {format(parseISO(event.launchDate), "dd-MM-yyyy")}
+                  {format(parseISO(event.eventlaunchdate), "dd-MM-yyyy")}
                 </td>
                 <td className="px-6 py-4">
-                  {determineStatus(event.launchDate)}
+                  {determineStatus(event.eventlaunchdate)}
                 </td>
                 {/* Assuming a default status */}
                 <td className="px-6 py-4">

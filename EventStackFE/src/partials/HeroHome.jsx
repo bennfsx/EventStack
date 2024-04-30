@@ -1,7 +1,7 @@
-import React, { useState, useRef, useEffect } from 'react';
-import Modal from '../utils/Modal';
+import React, { useState, useRef, useEffect } from "react";
+import Modal from "../utils/Modal";
 
-import HeroImage from '../images/events.jpg';
+import HeroImage from "../images/events.jpg";
 import HeroImage2 from "../images/hero-image.png";
 function HeroHome() {
   const [currentIndex, setCurrentIndex] = useState(0);
@@ -84,7 +84,7 @@ function HeroHome() {
                 <div>
                   <a
                     className="btn text-white bg-gray-900 hover:bg-gray-800 w-full sm:w-auto sm:ml-4"
-                    href="#0"
+                    href="/findevents"
                   >
                     Explore Now
                   </a>

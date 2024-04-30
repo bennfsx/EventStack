@@ -22,14 +22,49 @@ function CreateEvent() {
   const [isEventCreated, setIsEventCreated] = useState(false);
   const [eventNameError, setEventNameError] = useState("");
 
-  const handleFileUpload = (event) => {
+  // const handleFileUpload = (event) => {
+  //   const file = event.target.files[0];
+  //   if (file) {
+  //     const reader = new FileReader();
+  //     reader.onloadend = () => {
+  //       setPreviewImage(reader.result);
+  //     };
+  //     reader.readAsDataURL(file);
+  //   }
+  // };
+
+  const handleFileUpload = async (event) => {
     const file = event.target.files[0];
     if (file) {
       const reader = new FileReader();
-      reader.onloadend = () => {
-        setPreviewImage(reader.result);
+      reader.onloadend = async () => {
+        const dataBuffer = new Uint8Array(reader.result);
+        const response = await uploadImageToBackend(dataBuffer, file.name);
+        console.log("Uploaded image URL:", response.url);
+        // You can handle the response URL as needed
       };
-      reader.readAsDataURL(file);
+      reader.readAsArrayBuffer(file);
+    }
+  };
+
+  const uploadImageToBackend = async (dataBuffer, filename) => {
+    try {
+      const formData = new FormData();
+      formData.append("file", new Blob([dataBuffer]), filename);
+
+      const response = await fetch("/upload-image", {
+        method: "POST",
+        body: formData,
+      });
+
+      if (!response.ok) {
+        throw new Error("Failed to upload image");
+      }
+
+      return response.json();
+    } catch (error) {
+      console.error("Error uploading image to backend:", error);
+      throw error;
     }
   };
 
@@ -42,15 +77,18 @@ function CreateEvent() {
 
     const formData = new FormData();
     formData.append("eventname", eventName);
-    formData.append("description", eventDescription);
-    formData.append("datetime", format(datetime12h, "yyyy-MM-dd HH:mm:ss"));
-    formData.append("eventimage", previewImage);
-    formData.append("seatcapacity", eventSeat);
-    formData.append("launchdate", format(launchDate, "yyyy-MM-dd"));
-    formData.append("venue", eventVenue);
+    formData.append("eventdescription", eventDescription);
+    formData.append(
+      "eventdatetime",
+      format(datetime12h, "yyyy-MM-dd HH:mm:ss")
+    );
+    formData.append("imageurl", previewImage);
+    formData.append("eventseatcapacity", eventSeat);
+    formData.append("eventlaunchdate", format(launchDate, "yyyy-MM-dd"));
+    formData.append("eventvenue", eventVenue);
+    formData.append("eventaddress", eventAddress);
     formData.append("city", city);
     formData.append("state", state);
-    formData.append("address", eventAddress);
     formData.append("postalcode", postalCode);
 
     try {

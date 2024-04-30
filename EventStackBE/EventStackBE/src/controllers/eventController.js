@@ -64,7 +64,18 @@ const createEvent = async (req, res) => {
   }
 };
 
+const getAllEvent = async (req, res) => {
+  try {
+    const events = await pool.query("SELECT * FROM EVENT");
+    res.status(200).json(events.rows);
+  } catch (error) {
+    console.error("Error retrieving events:", error.message);
+    res.status(500).json({ error: "Failed to retrieve events" });
+  }
+};
+
 module.exports = {
   createEvent,
   uploadToGCP,
+  getAllEvent,
 };
