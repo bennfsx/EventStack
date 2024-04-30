@@ -5,21 +5,18 @@ export const UserContext = createContext();
 export function UserProvider({ children }) {
   const [user, setUser] = useState({
     accessToken: null,
-    email: null,
-    firstName: null,
-    lastName: null,
+    userId: null,
     usertype: null,
-    id: null,
   });
 
   const checkSession = async () => {
     if (sessionStorage.getItem("access") !== null) {
       const sessionAccess = await sessionStorage.getItem("access");
       const usertype = await sessionStorage.getItem("usertype");
-      const id = await sessionStorage.getItem("userId");
+      const userId = await sessionStorage.getItem("userId");
       setUser({
         accessToken: sessionAccess,
-        userId: null,
+        userId: userId,
         usertype: usertype,
       });
     }
@@ -28,11 +25,10 @@ export function UserProvider({ children }) {
   const logout = () => {
     sessionStorage.clear("access");
     sessionStorage.clear("usertype");
+    console.log("Logged out succesfully!");
     setUser({
       accessToken: null,
-      email: null,
-      firstName: null,
-      lastName: null,
+      userId: null,
       usertype: null,
     });
   };

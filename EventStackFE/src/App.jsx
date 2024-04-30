@@ -24,7 +24,7 @@ import { UserProvider } from "./context/UserContext";
 
 function App() {
   const location = useLocation();
-  const { user = { usertype: null }, checkSession } = useUser(); // Provide a default value for user
+  const { user, checkSession } = useUser(); // Provide a default value for user
 
   useEffect(() => {
     checkSession();
@@ -37,7 +37,7 @@ function App() {
       duration: 700,
       easing: "ease-out-cubic",
     });
-  }, [checkSession, user]); // Include checkSession and user in the dependencies array
+  }, []); // Include checkSession and user in the dependencies array
 
   useEffect(() => {
     document.querySelector("html").style.scrollBehavior = "auto";
@@ -49,9 +49,33 @@ function App() {
     return (
       <Routes>
         <Route exact path="/home" element={<Home />} />
+        {/* <Route path="/signin" element={<SignIn />} /> */}
+        {/* <Route path="/signupuser" element={<SignUpUser />} /> */}
+        {/* <Route path="/signuporganizer" element={<SignUpOrganizer />} /> */}
+        {/* <Route path="/reset-password" element={<ResetPassword />} /> */}
+        <Route path="/usertype" element={<UserType />} />
+        <Route path="/findevents" element={<FindEvents />} />
+        {/* <Route
+          path="/eventorganizer/qr/:eventId/:eventName"
+          element={<QRCodePage />}
+        /> */}
+        <Route
+          path="/findevents/individualevent"
+          element={<IndividualEvent />}
+        />
+        {/* Routes for different user types */}
+        {/* <Route path="/eventorganizer" element={<EventOrgHome />} />
+        <Route path="/eventorganizer/createevent" element={<CreateEvent />} />
+        <Route path="/eventorganizer/myevents" element={<MyEvents />} /> */}
+      </Routes>
+    );
+  } else if (user.usertype === "eventorganizer") {
+    return (
+      <Routes>
+        <Route exact path="/home" element={<Home />} />
         <Route path="/signin" element={<SignIn />} />
-        <Route path="/signupuser" element={<SignUpUser />} />
-        <Route path="/signuporganizer" element={<SignUpOrganizer />} />
+        {/* <Route path="/signupuser" element={<SignUpUser />} /> */}
+        {/* <Route path="/signuporganizer" element={<SignUpOrganizer />} /> */}
         <Route path="/reset-password" element={<ResetPassword />} />
         <Route path="/usertype" element={<UserType />} />
         <Route path="/findevents" element={<FindEvents />} />
