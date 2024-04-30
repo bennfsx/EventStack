@@ -124,7 +124,6 @@ const updateEventById = async (req, res) => {
     // Prepare the array of values for the parameters
     const values = Object.values(updates);
     values.push(eventId); // Add the eventId to the end of the array
-
     const query = `
       UPDATE event
       SET ${setClause}

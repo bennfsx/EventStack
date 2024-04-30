@@ -16,7 +16,7 @@ const {
 router.post("/createevent", createEvent);
 router.post("/getallevent", getAllEvent);
 router.delete("/deleteevent/:eventId", deleteEventById);
-router.patch("/updatebyid/:eventId", updateEventById);
+router.patch("/updateevent/:eventId", updateEventById);
 
 router.post("/upload-image", async (req, res) => {
   try {
