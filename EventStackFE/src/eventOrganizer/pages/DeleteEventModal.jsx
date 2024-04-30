@@ -1,9 +1,18 @@
-// DeleteEventModal.jsx
-
 import React from "react";
+import axiosAPI from "../../axiosAPI"; // Import your Axios instance
 
-const DeleteEventModal = ({ isOpen, onClose, onConfirm }) => {
+const DeleteEventModal = ({ isOpen, onClose, onConfirm, eventid }) => {
   if (!isOpen) return null;
+
+  const handleConfirm = async () => {
+    try {
+      await axiosAPI.delete(`/api/deleteevent/${eventid}`); // Assuming your backend endpoint is /api/events/:eventId
+      onConfirm(); // Call the onConfirm function provided by the parent component
+    } catch (error) {
+      console.error("Error deleting event:", error);
+      // Handle error (e.g., show error message to the user)
+    }
+  };
 
   return (
     <>
@@ -18,13 +27,13 @@ const DeleteEventModal = ({ isOpen, onClose, onConfirm }) => {
         <div className="flex justify-center">
           <button
             className="px-4 py-2 bg-gray-200 text-gray-700 rounded hover:bg-gray-300 mr-2"
-            onClick={onClose} // This should close the modal without doing anything else
+            onClick={onClose}
           >
             Cancel
           </button>
           <button
             className="px-4 py-2 bg-red-500 text-white rounded hover:bg-red-600"
-            onClick={onConfirm} // This should trigger the deletion process
+            onClick={handleConfirm} // Call handleConfirm when the "Yes, I'm sure" button is clicked
           >
             Yes, I'm sure
           </button>

@@ -15,7 +15,7 @@ import {
 function MyEvents() {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [selectedEvent, setSelectedEvent] = useState(null);
-  const [eventID, setEventId] = useState("");
+  const [eventid, setEventId] = useState("");
   const [eventName, setEventName] = useState("");
   const [launchDate, setLaunchDate] = useState("");
   const [events, setEvents] = useState([]);
@@ -26,12 +26,7 @@ function MyEvents() {
   const fetchEvents = async () => {
     try {
       const response = await axiosAPI.post("/api/getallevent");
-      // const filteredEvents = response.data.map((event) => ({
-      //   eventID: event.eventID,
-      //   eventDescription: event.eventDescription,
-      //   eventName: event.eventName,
-      //   launchDate: event.launchDate,
-      // }));
+
       setEvents(response.data);
     } catch (error) {
       console.error("Error fetching events:", error);
@@ -44,20 +39,15 @@ function MyEvents() {
   }, []);
 
   const handleDeleteEvent = async (eventID) => {
-    try {
-      const requestBody = { eventID: eventID };
-      const response = await axiosAPI.delete("/deleteevent", {
-        data: requestBody,
-      });
-      console.log("Event deleted successfully", response.data);
-      // Refresh the events list or handle UI update
-    } catch (error) {
-      console.error("Error deleting event:", error);
-    }
+    const updatedEvents = events.filter((event) => event.eventid !== eventID);
+    setEvents(updatedEvents); // Update the events state
+    console.log("Event deleted successfully");
   };
 
   const openModal = (event) => {
     setSelectedEvent(event);
+    console.log("Selected event:", event); // Add this line
+    setEventId(event.eventid); // Use event.eventID to set the eventId state
     setIsModalOpen(true);
   };
 
@@ -67,8 +57,8 @@ function MyEvents() {
 
   const confirmDelete = async () => {
     // Ensure you have the event ID to delete
-    if (selectedEvent?.eventID) {
-      await handleDeleteEvent(selectedEvent.eventID);
+    if (selectedEvent?.eventid) {
+      await handleDeleteEvent(selectedEvent.eventid);
       closeModal(); // Close the modal
     }
   };
@@ -136,7 +126,9 @@ function MyEvents() {
           isOpen={isModalOpen}
           onClose={closeModal}
           onConfirm={confirmDelete}
+          eventid={selectedEvent?.eventid} // Corrected property name
         />
+
         <table className="w-full text-lg text-left text-gray-800 dark:text-gray-400">
           <thead className="text-lg text-gray-900 bg-gray-50 dark:bg-gray-700">
             <tr>
@@ -155,7 +147,7 @@ function MyEvents() {
               <th scope="col" className="px-6 py-3">
                 Status
               </th>
-              <th scope="col" className="px-6 py-3">
+              <th scope="col" className="px-14 py-3">
                 Action
               </th>
             </tr>
@@ -163,7 +155,7 @@ function MyEvents() {
           <tbody>
             {events.map((event, index) => (
               <tr
-                key={event.eventID}
+                key={event.eventid}
                 className={`${
                   index % 2 === 0 ? "bg-gray-50" : "bg-white"
                 } border-b dark:border-gray-700`}

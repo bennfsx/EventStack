@@ -4,6 +4,29 @@ const { v4: uuidv4 } = require("uuid");
 const { decode } = require("base64-arraybuffer");
 require("dotenv").config();
 
+// const uploadToGCP = async (dataBuffer, filename) => {
+//   try {
+//     const storage = new Storage();
+//     const bucket = storage.bucket(process.env.BUCKET_NAME);
+
+//     const file = bucket.file(filename);
+//     await file.save(dataBuffer, {
+//       contentType: "image/jpeg",
+//       resumable: false,
+//     });
+
+//     const [url] = await file.getSignedUrl({
+//       action: "read",
+//       expires: Date.now() + 1000 * 60 * 60 * 24 * 7,
+//     });
+
+//     return url;
+//   } catch (err) {
+//     console.error("Error uploading image to Google Cloud Storage:", err);
+//     throw err;
+//   }
+// };
+
 const uploadToGCP = async (dataBuffer, filename) => {
   try {
     const storage = new Storage();
@@ -21,9 +44,9 @@ const uploadToGCP = async (dataBuffer, filename) => {
     });
 
     return url;
-  } catch (err) {
-    console.error("Error uploading image to Google Cloud Storage:", err);
-    throw err;
+  } catch (error) {
+    console.error("Error uploading image to Google Cloud Storage:", error);
+    throw error;
   }
 };
 
@@ -74,8 +97,54 @@ const getAllEvent = async (req, res) => {
   }
 };
 
+const deleteEventById = async (req, res) => {
+  const eventId = req.params.eventId; // Assuming eventId is passed in the request parameters
+
+  try {
+    const events = await pool.query("DELETE FROM EVENT WHERE eventid = $1", [
+      eventId,
+    ]);
+    res.status(200).json({ message: "Event deleted successfully" });
+  } catch (error) {
+    console.error("Error deleting event:", error);
+    res.status(500).json({ error: "Failed to delete event" });
+  }
+};
+
+const updateEventById = async (req, res) => {
+  const eventId = req.params.eventId;
+  const { updates } = req.body;
+
+  try {
+    // Construct the SET clause dynamically based on the updates object
+    const setClause = Object.keys(updates)
+      .map((key, index) => `${key} = $${index + 1}`)
+      .join(", ");
+
+    // Prepare the array of values for the parameters
+    const values = Object.values(updates);
+    values.push(eventId); // Add the eventId to the end of the array
+
+    const query = `
+      UPDATE event
+      SET ${setClause}
+      WHERE eventid = ${eventId}
+    `;
+
+    // Execute the query with the array of values
+    await pool.query(query, values);
+
+    res.status(200).json({ message: "Event updated successfully" });
+  } catch (error) {
+    console.error("Error updating event:", error);
+    res.status(500).json({ error: "Internal server error" });
+  }
+};
+
 module.exports = {
   createEvent,
   uploadToGCP,
   getAllEvent,
+  deleteEventById,
+  updateEventById,
 };
