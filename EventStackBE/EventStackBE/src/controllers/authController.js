@@ -69,7 +69,7 @@ const signupOrg = async (req, res) => {
       "INSERT INTO Users (UserType, Email, Password) VALUES ($1, $2, $3) RETURNING UserID",
       ["eventorganizer", req.body.email, passwordHash]
     );
-    const userID = userQueryResult.rows[0].UserID; // Corrected property name
+    const userID = userQueryResult.rows[0].userid; // Corrected property name
 
     // Insert the user into the EventOrganizer table with first name and last name
     await pool.query(

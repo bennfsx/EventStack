@@ -113,26 +113,28 @@ const deleteEventById = async (req, res) => {
 
 const updateEventById = async (req, res) => {
   const eventId = req.params.eventId;
-  const { updates } = req.body;
+  const eventData = req.body;
 
   try {
-    // Construct the SET clause dynamically based on the updates object
-    const setClause = Object.keys(updates)
+    // Construct the SET clause dynamically based on the eventData object
+    const setClause = Object.keys(eventData)
       .map((key, index) => `${key} = $${index + 1}`)
       .join(", ");
 
     // Prepare the array of values for the parameters
-    const values = Object.values(updates);
+    const values = Object.values(eventData);
     values.push(eventId); // Add the eventId to the end of the array
 
     const query = `
       UPDATE event
       SET ${setClause}
-      WHERE eventid = ${eventId}
+      WHERE eventid = $${values.length}
     `;
 
     // Execute the query with the array of values
     await pool.query(query, values);
+
+    console.log("Event updated successfully");
 
     res.status(200).json({ message: "Event updated successfully" });
   } catch (error) {

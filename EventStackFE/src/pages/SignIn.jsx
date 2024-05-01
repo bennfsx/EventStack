@@ -11,7 +11,7 @@ function SignIn() {
   const navigate = useNavigate();
 
   const handleSuccessLogin = () => {
-    navigate("/home");
+    navigate("/");
   };
 
   const [email, setEmail] = useState("");

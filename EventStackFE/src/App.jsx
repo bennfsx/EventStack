@@ -48,7 +48,7 @@ function App() {
   if (user.usertype === "eventattendee") {
     return (
       <Routes>
-        <Route exact path="/home" element={<Home />} />
+        <Route exact path="/" element={<Home />} />
         {/* <Route path="/signin" element={<SignIn />} /> */}
         {/* <Route path="/signupuser" element={<SignUpUser />} /> */}
         {/* <Route path="/signuporganizer" element={<SignUpOrganizer />} /> */}
@@ -72,7 +72,7 @@ function App() {
   } else if (user.usertype === "eventorganizer") {
     return (
       <Routes>
-        <Route exact path="/home" element={<Home />} />
+        <Route exact path="/" element={<Home />} />
         <Route path="/signin" element={<SignIn />} />
         {/* <Route path="/signupuser" element={<SignUpUser />} /> */}
         {/* <Route path="/signuporganizer" element={<SignUpOrganizer />} /> */}
@@ -96,7 +96,7 @@ function App() {
   } else {
     return (
       <Routes>
-        <Route exact path="/home" element={<Home />} />
+        <Route exact path="/" element={<Home />} />
         <Route path="/signin" element={<SignIn />} />
         <Route path="/signupuser" element={<SignUpUser />} />
         <Route path="/signuporganizer" element={<SignUpOrganizer />} />

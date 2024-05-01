@@ -7,6 +7,7 @@ const pool = require("./src/db/db.js");
 const { getUsers } = require("./src/controllers/userController.js");
 const authRouter = require("./src/routers/authRouter");
 const eventRouter = require("./src/routers/eventRouters");
+const userRouter = require("./src/routers/userRouter");
 
 // const { notFundError, serverError } = require("./error");
 // const routes = require("./routes");
@@ -30,11 +31,10 @@ app.use(express.urlencoded({ extended: false }));
 
 const PORT = process.env.PORT || 6001;
 
-app.get("/api/getUsers", getUsers);
-
 app.listen(PORT, () => {
   console.log(`Server listening on the port ${PORT}`);
 });
 
 app.use("/auth", authRouter);
 app.use("/api", eventRouter);
+app.use("/user", userRouter);

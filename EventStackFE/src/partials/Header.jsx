@@ -26,7 +26,7 @@ function Header() {
           {/* Site branding */}
           <div className="flex-shrink-0 mr-4">
             {/* Logo */}
-            <Link to="/home">
+            <Link to="/">
               <img
                 src="/src/images/ES-(Transpartent).png"
                 alt="EventStack"
@@ -41,7 +41,7 @@ function Header() {
             <ul className="flex flex-grow justify-end flex-wrap items-center">
               <li>
                 <Link
-                  to="/home"
+                  to="/"
                   className="font-medium text-gray-600 hover:text-gray-900 px-5 py-3 flex items-center transition duration-150 ease-in-out"
                 >
                   Home
@@ -78,7 +78,7 @@ function Header() {
                 {user.usertype && (
                   <Link
                     onClick={logout}
-                    to="/home"
+                    to="/"
                     className="font-medium text-gray-600 hover:text-gray-900 px-5 py-3 flex items-center transition duration-150 ease-in-out"
                   >
                     Logout

@@ -12,9 +12,11 @@ function SignUpOrganizer() {
   const [address, setAddress] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPwd, setConfirmPwd] = useState("");
+  const [emailErrorMsg, setEmailErrorMsg] = useState(""); // State to hold email error message
+  const [passwordErrorMsg, setPasswordErrorMsg] = useState(""); // State to hold password error message
 
   const handleSuccessSignup = () => {
-    navigate("/home");
+    navigate("/");
   };
   const navigate = useNavigate();
 
@@ -29,13 +31,17 @@ function SignUpOrganizer() {
     event.preventDefault();
 
     if (!validateEmail(email)) {
-      alert("Please enter a valid email address");
+      setEmailErrorMsg("Please enter a valid email address");
       return;
+    } else {
+      setEmailErrorMsg("");
     }
 
     if (password !== confirmPwd) {
-      alert("Passwords do not match!");
+      setPasswordErrorMsg("Passwords do not match!");
       return;
+    } else {
+      setPasswordErrorMsg("");
     }
 
     const requestData = {
@@ -54,6 +60,12 @@ function SignUpOrganizer() {
       console.log(response.status);
     } catch (error) {
       console.error("Error creating account:", error.response);
+      if (
+        error.response.data.status === "error" &&
+        error.response.data.msg === "Duplicate email, user already registered"
+      ) {
+        setEmailErrorMsg("Email address already exists");
+      }
     }
   };
 
@@ -129,8 +141,12 @@ function SignUpOrganizer() {
                         required
                         onChange={(e) => setEmail(e.target.value)}
                       />
+                      {emailErrorMsg && (
+                        <div className="text-red-600 mb-4">{emailErrorMsg}</div>
+                      )}
                     </div>
                   </div>
+
                   <div className="flex flex-wrap -mx-48 mb-4">
                     <div className="w-full px-3">
                       <label
@@ -202,6 +218,11 @@ function SignUpOrganizer() {
                         onChange={(e) => setConfirmPwd(e.target.value)}
                       />
                     </div>
+                    {passwordErrorMsg && (
+                      <div className="text-red-600 mb-4">
+                        {passwordErrorMsg}
+                      </div>
+                    )}
                   </div>
                   <div className="flex flex-wrap -mx-48 mt-6">
                     <div className="w-full px-3">
