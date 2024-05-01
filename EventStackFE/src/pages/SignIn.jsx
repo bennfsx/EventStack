@@ -1,7 +1,6 @@
 import React, { useState, useContext } from "react";
 import { Link, Route, useNavigate } from "react-router-dom";
 import Header from "../partials/Header";
-import Banner from "../partials/Banner";
 import { UserContext } from "../context/UserContext";
 import axiosAPI from "../axiosAPI";
 import { jwtDecode } from "jwt-decode";
@@ -11,7 +10,7 @@ function SignIn() {
   const navigate = useNavigate();
 
   const handleSuccessLogin = () => {
-    navigate("/home");
+    navigate("/");
   };
 
   const [email, setEmail] = useState("");
@@ -32,6 +31,7 @@ function SignIn() {
 
       // Decode the JWT token to extract userId and usertype
       const decodedToken = jwtDecode(response.data.token);
+      localStorage.setItem("refresh", response.data.refresh);
       if (decodedToken) {
         const { userId, usertype } = decodedToken;
         console.log("Decoded token:", decodedToken);
@@ -42,6 +42,9 @@ function SignIn() {
           userId: userId,
           usertype: usertype,
         });
+        sessionStorage.setItem("access", response.data.access);
+        sessionStorage.setItem("usertype", decodedToken.usertype);
+        sessionStorage.setItem("userId", decodedToken.userId);
 
         handleSuccessLogin();
       } else {
@@ -157,7 +160,6 @@ function SignIn() {
           </div>
         </section>
       </main>
-      <Banner />
     </div>
   );
 }

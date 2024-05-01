@@ -2,6 +2,8 @@ import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import Header from "../partials/Header";
 import DeleteEventModal from "./DeleteEventModal";
+import UpdateEventModal from "./UpdateEventModal";
+
 import axiosAPI from "../../axiosAPI";
 import { format, parseISO, isPast } from "date-fns";
 
@@ -15,6 +17,8 @@ import {
 function MyEvents() {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [selectedEvent, setSelectedEvent] = useState(null);
+  const [isUpdateModalOpen, setIsUpdateModalOpen] = useState(false); // State for update modal
+  const [selectedEventForUpdate, setSelectedEventForUpdate] = useState(null);
   const [eventid, setEventId] = useState("");
   const [eventName, setEventName] = useState("");
   const [launchDate, setLaunchDate] = useState("");
@@ -26,7 +30,6 @@ function MyEvents() {
   const fetchEvents = async () => {
     try {
       const response = await axiosAPI.post("/api/getallevent");
-
       setEvents(response.data);
     } catch (error) {
       console.error("Error fetching events:", error);
@@ -46,8 +49,8 @@ function MyEvents() {
 
   const openModal = (event) => {
     setSelectedEvent(event);
-    console.log("Selected event:", event); // Add this line
-    setEventId(event.eventid); // Use event.eventID to set the eventId state
+    console.log("Selected event:", event);
+    setEventId(event.eventid);
     setIsModalOpen(true);
   };
 
@@ -55,11 +58,19 @@ function MyEvents() {
     setIsModalOpen(false);
   };
 
+  const openUpdateModal = (event) => {
+    setSelectedEventForUpdate(event);
+    setIsUpdateModalOpen(true); // Set update modal state to true
+  };
+
+  const closeUpdateModal = () => {
+    setIsUpdateModalOpen(false); // Close update modal
+  };
+
   const confirmDelete = async () => {
-    // Ensure you have the event ID to delete
     if (selectedEvent?.eventid) {
       await handleDeleteEvent(selectedEvent.eventid);
-      closeModal(); // Close the modal
+      closeModal();
     }
   };
 
@@ -96,6 +107,7 @@ function MyEvents() {
           title="Edit"
           size={30}
           color="#D882BC"
+          onClick={() => openUpdateModal(event)} // Open update modal on click
         />
         <AiOutlineDelete
           className="cursor-pointer"
@@ -126,7 +138,15 @@ function MyEvents() {
           isOpen={isModalOpen}
           onClose={closeModal}
           onConfirm={confirmDelete}
-          eventid={selectedEvent?.eventid} // Corrected property name
+          eventid={selectedEvent?.eventid}
+        />
+
+        <UpdateEventModal
+          isOpen={isUpdateModalOpen}
+          onClose={() => setIsUpdateModalOpen(false)}
+          event={selectedEventForUpdate}
+          selectedEventForUpdate={selectedEventForUpdate}
+          onUpdateSuccess={fetchEvents} // Pass the function to refresh event data
         />
 
         <table className="w-full text-lg text-left text-gray-800 dark:text-gray-400">
@@ -175,7 +195,6 @@ function MyEvents() {
                 <td className="px-6 py-4">
                   {determineStatus(event.eventlaunchdate)}
                 </td>
-                {/* Assuming a default status */}
                 <td className="px-6 py-4">
                   <ActionIcons event={event} />
                 </td>
