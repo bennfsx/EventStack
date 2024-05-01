@@ -82,18 +82,18 @@ const createEvent = async (req, res) => {
     // const imageUrl = await uploadToGCP(image.buffer, image.originalname);
 
     await pool.query(
-      "INSERT INTO Event (EventName, EventDescription, eventdatetime, imageurl, EventSeatCapacity, eventlaunchdate, eventvenue, eventaddress, City, State, PostalCode) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10,$11)",
+      "INSERT INTO Event (eventname, eventdescription, eventdatetime, eventseatcapacity, eventlaunchdate, eventvenue, city, state, eventaddress, postalcode) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10)",
       [
         req.body.eventname,
         req.body.eventdescription,
         req.body.eventdatetime,
-        req.body.imageurl,
+        //req.body.imageurl,
         req.body.eventseatcapacity,
         req.body.eventlaunchdate,
         req.body.eventvenue,
-        req.body.eventaddress,
         req.body.city,
         req.body.state,
+        req.body.eventaddress,
         req.body.postalcode,
       ]
     );
