@@ -22,7 +22,7 @@ const {
 router.put("/createevent", createEvent);
 router.post("/getallevent", getAllEvent);
 router.delete("/deleteevent/:eventId", deleteEventById);
-router.patch("/updateevent/:eventId", updateEventById);
+router.patch("/updatebyid/:eventId", updateEventById);
 
 router.post("/upload-image/:eventid", upload.single("image"), uploadAsset);
 
