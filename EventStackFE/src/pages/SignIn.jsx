@@ -1,7 +1,6 @@
 import React, { useState, useContext } from "react";
 import { Link, Route, useNavigate } from "react-router-dom";
 import Header from "../partials/Header";
-import Banner from "../partials/Banner";
 import { UserContext } from "../context/UserContext";
 import axiosAPI from "../axiosAPI";
 import { jwtDecode } from "jwt-decode";
@@ -157,7 +156,6 @@ function SignIn() {
           </div>
         </section>
       </main>
-      <Banner />
     </div>
   );
 }

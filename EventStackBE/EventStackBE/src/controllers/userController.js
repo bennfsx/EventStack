@@ -13,7 +13,7 @@ const getUsers = async (req, res) => {
 
 const updateEventOrg = async (req, res) => {
   try {
-    const { eventorganizerid } = req.params; // Assuming the event organizer ID is passed as a URL parameter
+    const { userid } = req.params; // Assuming the event organizer ID is passed as a URL parameter
     const { companyname, uennumber, phone, country, address, postalcode } =
       req.body; // Assuming these are the fields you want to update
 
@@ -21,7 +21,7 @@ const updateEventOrg = async (req, res) => {
     const query = `
       UPDATE eventorganizer 
       SET companyname = $1, uennumber = $2, phone = $3, country = $4, address = $5, postalcode = $6
-      WHERE eventorganizerid  = $7
+      WHERE userid  = $7
     `;
 
     // Execute the SQL query with the provided parameters
@@ -32,7 +32,7 @@ const updateEventOrg = async (req, res) => {
       country,
       address,
       postalcode,
-      eventorganizerid,
+      userid,
     ]);
 
     // Check if any rows were affected by the update operation
@@ -61,17 +61,17 @@ const updateEventOrg = async (req, res) => {
 
 const getEventOrgById = async (req, res) => {
   try {
-    const { eventOrganizerID } = req.params;
+    const { userid } = req.params;
 
     // Construct the SQL query
     const query = `
-      SELECT uennumber, companyname, phone, country, address, postalcode
+      SELECT email, uennumber, companyname, phone, country, address, postalcode
       FROM eventorganizer
-      WHERE eventOrganizerID = $1
+      WHERE userid = $1
     `;
 
     // Execute the SQL query with the provided eventOrganizerID
-    const result = await pool.query(query, [eventOrganizerID]);
+    const result = await pool.query(query, [userid]);
 
     // Check if the event organizer with the specified ID exists
     if (result.rows.length === 0) {

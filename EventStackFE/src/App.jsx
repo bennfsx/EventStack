@@ -21,6 +21,7 @@ import QRCodePage from "./eventOrganizer/components/QRCodePage";
 
 import { useUser } from "./hooks/useUser";
 import { UserProvider } from "./context/UserContext";
+import UserProfile from "./eventOrganizer/pages/UserProfile";
 
 function App() {
   const location = useLocation();
@@ -74,8 +75,6 @@ function App() {
       <Routes>
         <Route exact path="/" element={<Home />} />
         <Route path="/signin" element={<SignIn />} />
-        {/* <Route path="/signupuser" element={<SignUpUser />} /> */}
-        {/* <Route path="/signuporganizer" element={<SignUpOrganizer />} /> */}
         <Route path="/reset-password" element={<ResetPassword />} />
         <Route path="/usertype" element={<UserType />} />
         <Route path="/findevents" element={<FindEvents />} />
@@ -91,6 +90,7 @@ function App() {
         <Route path="/eventorganizer" element={<EventOrgHome />} />
         <Route path="/eventorganizer/createevent" element={<CreateEvent />} />
         <Route path="/eventorganizer/myevents" element={<MyEvents />} />
+        <Route path="/userprofile" element={<UserProfile />} />
       </Routes>
     );
   } else {
@@ -112,9 +112,9 @@ function App() {
           element={<IndividualEvent />}
         />
         {/* Routes for different user types */}
-        <Route path="/eventorganizer" element={<EventOrgHome />} />
+        {/* <Route path="/eventorganizer" element={<EventOrgHome />} />
         <Route path="/eventorganizer/createevent" element={<CreateEvent />} />
-        <Route path="/eventorganizer/myevents" element={<MyEvents />} />
+        <Route path="/eventorganizer/myevents" element={<MyEvents />} /> */}
       </Routes>
     );
   }

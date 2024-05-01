@@ -22,7 +22,7 @@ function Home() {
     {
       img: "./src/images/user.png",
       title: "My Account",
-      link: "#",
+      link: "/userprofile",
       // description:
       //   "With each function you host, you'll unlock new potentials for engagement, knowledge sharing, and goal attainment. Register today to elevate your events to new heights!",
     },
