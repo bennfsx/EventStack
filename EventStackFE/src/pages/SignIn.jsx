@@ -31,6 +31,7 @@ function SignIn() {
 
       // Decode the JWT token to extract userId and usertype
       const decodedToken = jwtDecode(response.data.token);
+      localStorage.setItem("refresh", response.data.refresh);
       if (decodedToken) {
         const { userId, usertype } = decodedToken;
         console.log("Decoded token:", decodedToken);
@@ -41,6 +42,9 @@ function SignIn() {
           userId: userId,
           usertype: usertype,
         });
+        sessionStorage.setItem("access", response.data.access);
+        sessionStorage.setItem("usertype", decodedToken.usertype);
+        sessionStorage.setItem("userId", decodedToken.userId);
 
         handleSuccessLogin();
       } else {

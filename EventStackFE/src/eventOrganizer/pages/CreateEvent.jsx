@@ -21,50 +21,18 @@ function CreateEvent() {
   const [postalCode, setPostalCode] = useState("");
   const [isEventCreated, setIsEventCreated] = useState(false);
   const [eventNameError, setEventNameError] = useState("");
+  const [imageQueue, setImageQueue] = useState([]);
 
-  // const handleFileUpload = (event) => {
-  //   const file = event.target.files[0];
-  //   if (file) {
-  //     const reader = new FileReader();
-  //     reader.onloadend = () => {
-  //       setPreviewImage(reader.result);
-  //     };
-  //     reader.readAsDataURL(file);
-  //   }
-  // };
-
-  const handleFileUpload = async (event) => {
+  const handleFileUpload = (event) => {
     const file = event.target.files[0];
     if (file) {
       const reader = new FileReader();
-      reader.onloadend = async () => {
-        const dataBuffer = new Uint8Array(reader.result);
-        const response = await uploadImageToBackend(dataBuffer, file.name);
-        console.log("Uploaded image URL:", response.url);
-        // You can handle the response URL as needed
+      reader.onloadend = () => {
+        setPreviewImage(reader.result);
+        // Queue the image file
+        setImageQueue((prevQueue) => [...prevQueue, file]);
       };
-      reader.readAsArrayBuffer(file);
-    }
-  };
-
-  const uploadImageToBackend = async (dataBuffer, filename) => {
-    try {
-      const formData = new FormData();
-      formData.append("file", new Blob([dataBuffer]), filename);
-
-      const response = await fetch("/api/upload-image", {
-        method: "POST",
-        body: formData,
-      });
-
-      if (!response.ok) {
-        throw new Error("Failed to upload image");
-      }
-
-      return response.json();
-    } catch (error) {
-      console.error("Error uploading image to backend:", error);
-      throw error;
+      reader.readAsDataURL(file);
     }
   };
 
@@ -82,7 +50,6 @@ function CreateEvent() {
       "eventdatetime",
       format(datetime12h, "yyyy-MM-dd HH:mm:ss")
     );
-    formData.append("imageurl", previewImage);
     formData.append("eventseatcapacity", eventSeat);
     formData.append("eventlaunchdate", format(launchDate, "yyyy-MM-dd"));
     formData.append("eventvenue", eventVenue);
@@ -92,11 +59,16 @@ function CreateEvent() {
     formData.append("postalcode", postalCode);
 
     try {
-      const response = await axiosAPI.post("/api/createevent", formData, {
+      const response = await axiosAPI.put("/api/createevent", formData, {
         headers: {
           "Content-Type": "multipart/form-data",
         },
       });
+
+      // After event creation, upload queued images
+      // const eventid = response.data.eventid;
+      // await uploadQueuedImages(eventid);
+
       setIsEventCreated(true);
       console.log(response);
     } catch (error) {
@@ -105,6 +77,30 @@ function CreateEvent() {
       } else {
         console.error("Error creating Event:", error.response);
       }
+    }
+  };
+
+  const uploadQueuedImages = async (eventid) => {
+    try {
+      for (const imageFile of imageQueue) {
+        const formData = new FormData();
+        formData.append("eventid", eventid);
+        formData.append("file", imageFile);
+
+        const response = await axiosAPI.post("/api/upload-image", formData, {
+          headers: {
+            "Content-Type": "multipart/form-data",
+          },
+        });
+
+        console.log("Uploaded image URL:", response.url);
+        // You can handle the response URL as needed
+      }
+      // Clear the image queue after uploading
+      setImageQueue([]);
+    } catch (error) {
+      console.error("Error uploading queued images:", error);
+      throw error;
     }
   };
 
@@ -234,7 +230,7 @@ function CreateEvent() {
                     </div>
                   </div>
 
-                  <div className="col-span-full">
+                  {/* <div className="col-span-full">
                     <label
                       htmlFor="cover-photo"
                       className="block text-xl font-medium leading-6 text-gray-900"
@@ -242,64 +238,34 @@ function CreateEvent() {
                       Upload Image
                     </label>
                     <div className="mt-2 flex justify-center rounded-lg border border-dashed border-gray-900/25 px-6 py-10 relative">
-                      {/* Preview the image if available */}
-                      {previewImage && (
-                        <>
-                          <img
-                            src={previewImage}
-                            alt="Preview"
-                            className="mx-auto h-auto max-w-full"
-                          />
-                          <button
-                            type="button"
-                            className="absolute top-2 right-2 bg-white rounded-full p-1 shadow-md hover:bg-gray-100 focus:outline-none"
-                            onClick={clearPreviewImage}
+                      <div className="text-center">
+                        <PhotoIcon
+                          className="mx-auto h-12 w-12 text-gray-300"
+                          aria-hidden="true"
+                        />
+                        <div className="mt-4 flex text-sm leading-6 text-gray-600">
+                          <label
+                            htmlFor="file-upload"
+                            className="relative cursor-pointer rounded-md bg-white font-semibold text-indigo-600 focus-within:outline-none focus-within:ring-2 focus-within:ring-indigo-600 focus-within:ring-offset-2 hover:text-indigo-500"
                           >
-                            <svg
-                              xmlns="http://www.w3.org/2000/svg"
-                              className="h-5 w-5 text-gray-600"
-                              viewBox="0 0 20 20"
-                              fill="currentColor"
-                            >
-                              <path
-                                fillRule="evenodd"
-                                d="M14.293 5.293a1 1 0 1 0-1.414-1.414L10 8.586 6.121 4.707a1 1 0 0 0-1.414 1.414L8.586 10l-3.879 3.879a1 1 0 1 0 1.414 1.414L10 11.414l3.879 3.879a1 1 0 1 0 1.414-1.414L11.414 10l3.879-3.879z"
-                                clipRule="evenodd"
-                              />
-                            </svg>
-                          </button>
-                        </>
-                      )}
-                      {!previewImage && (
-                        <div className="text-center">
-                          <PhotoIcon
-                            className="mx-auto h-12 w-12 text-gray-300"
-                            aria-hidden="true"
-                          />
-                          <div className="mt-4 flex text-sm leading-6 text-gray-600">
-                            <label
-                              htmlFor="file-upload"
-                              className="relative cursor-pointer rounded-md bg-white font-semibold text-indigo-600 focus-within:outline-none focus-within:ring-2 focus-within:ring-indigo-600 focus-within:ring-offset-2 hover:text-indigo-500"
-                            >
-                              <span>Upload a file</span>
-                              <input
-                                id="file-upload"
-                                name="file-upload"
-                                type="file"
-                                className="sr-only"
-                                onChange={handleFileUpload} // Call handleFileUpload function on file change
-                                required
-                              />
-                            </label>
-                            <p className="pl-1">or drag and drop</p>
-                          </div>
-                          <p className="text-xs leading-5 text-gray-600">
-                            PNG, JPG, GIF up to 10MB
-                          </p>
+                            <span>Upload a file</span>
+                            <input
+                              id="file-upload"
+                              name="file-upload"
+                              type="file"
+                              className="sr-only"
+                              onChange={handleFileUpload}
+                              required
+                            />
+                          </label>
+                          <p className="pl-1">or drag and drop</p>
                         </div>
-                      )}
-                    </div>
-                  </div>
+                        <p className="text-xs leading-5 text-gray-600">
+                          PNG, JPG, GIF up to 10MB
+                        </p>
+                      </div>
+                    </div> */}
+                  {/* </div> */}
                 </div>
                 <div className="mt-10 grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-6">
                   <div className="sm:col-span-4">
@@ -385,7 +351,7 @@ function CreateEvent() {
                         className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:max-w-xs sm:text-sm sm:leading-6"
                         style={{ fontSize: "17px" }}
                         value={eventVenue}
-                        onChange={(e) => setEventVenue(e.target.value)} // Update eventVenue state when an option is selected
+                        onChange={(e) => setEventVenue(e.target.value)}
                         required
                       >
                         <option value="">Select venue...</option>
@@ -500,150 +466,70 @@ function CreateEvent() {
                   Notifications
                 </h2>
                 <p className="mt-1 text-medium leading-6 text-gray-600">
-                  We'll always let you know about important changes, but you
-                  pick what else you want to hear about.
+                  We'll let your community know about your event!
                 </p>
 
-                <div className="mt-10 space-y-10">
-                  <fieldset>
-                    <legend className="text-xl font-semibold leading-6 text-gray-900">
-                      By Email
-                    </legend>
-                    <div className="mt-6 space-y-6">
-                      <div className="relative flex gap-x-3">
-                        <div className="flex h-6 items-center">
-                          <input
-                            id="comments"
-                            name="comments"
-                            type="checkbox"
-                            className="h-4 w-4 rounded border-gray-300 text-indigo-600 focus:ring-indigo-600"
-                          />
-                        </div>
-                        <div className="text-sm leading-6">
-                          <label
-                            htmlFor="comments"
-                            className="font-medium text-gray-900"
-                          >
-                            Seating Capacity
-                          </label>
-                          <p className="text-gray-500">
-                            Get notified when seating capacity is at 75%.
-                          </p>
-                        </div>
+                <div className="mt-10 grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-6">
+                  <div className="sm:col-span-3">
+                    <div className="flex items-start">
+                      <div className="flex items-center h-5">
+                        <input
+                          id="comments"
+                          name="comments"
+                          type="checkbox"
+                          className="focus:ring-indigo-500 h-4 w-4 text-indigo-600 border-gray-300 rounded"
+                        />
                       </div>
-                      <div className="relative flex gap-x-3">
-                        <div className="flex h-6 items-center">
-                          <input
-                            id="candidates"
-                            name="candidates"
-                            type="checkbox"
-                            className="h-4 w-4 rounded border-gray-300 text-indigo-600 focus:ring-indigo-600"
-                          />
-                        </div>
-                        <div className="text-sm leading-6">
-                          <label
-                            htmlFor="candidates"
-                            className="font-medium text-gray-900"
-                          >
-                            Fully Booked
-                          </label>
-                          <p className="text-gray-500">
-                            Get notified when event is fully booked.
-                          </p>
-                        </div>
-                      </div>
-                      <div className="relative flex gap-x-3">
-                        <div className="flex h-6 items-center">
-                          <input
-                            id="offers"
-                            name="offers"
-                            type="checkbox"
-                            className="h-4 w-4 rounded border-gray-300 text-indigo-600 focus:ring-indigo-600"
-                          />
-                        </div>
-                        <div className="text-sm leading-6">
-                          <label
-                            htmlFor="offers"
-                            className="font-medium text-gray-900"
-                          >
-                            Others
-                          </label>
-                          <p className="text-gray-500">
-                            Customized Event Notifications.
-                          </p>
-                        </div>
+                      <div className="ml-3 text-sm">
+                        <label
+                          htmlFor="comments"
+                          className="font-medium text-gray-700"
+                        >
+                          Comments
+                        </label>
+                        <p className="text-gray-500">
+                          Get notified when someones posts a comment on a
+                          listing.
+                        </p>
                       </div>
                     </div>
-                  </fieldset>
-                  <fieldset>
-                    <legend className="text-sm font-semibold leading-6 text-gray-900">
-                      Push Notifications
-                    </legend>
-                    <p className="mt-1 text-sm leading-6 text-gray-600">
-                      These are delivered via SMS to your mobile phone.
-                    </p>
-                    <div className="mt-6 space-y-6">
-                      <div className="flex items-center gap-x-3">
+                  </div>
+                  <div className="sm:col-span-3">
+                    <div className="flex items-start">
+                      <div className="flex items-center h-5">
                         <input
-                          id="push-everything"
-                          name="push-notifications"
-                          type="radio"
-                          className="h-4 w-4 border-gray-300 text-indigo-600 focus:ring-indigo-600"
+                          id="candidates"
+                          name="candidates"
+                          type="checkbox"
+                          className="focus:ring-indigo-500 h-4 w-4 text-indigo-600 border-gray-300 rounded"
                         />
-                        <label
-                          htmlFor="push-everything"
-                          className="block text-sm font-medium leading-6 text-gray-900"
-                        >
-                          Everything
-                        </label>
                       </div>
-                      <div className="flex items-center gap-x-3">
-                        <input
-                          id="push-email"
-                          name="push-notifications"
-                          type="radio"
-                          className="h-4 w-4 border-gray-300 text-indigo-600 focus:ring-indigo-600"
-                        />
+                      <div className="ml-3 text-sm">
                         <label
-                          htmlFor="push-email"
-                          className="block text-sm font-medium leading-6 text-gray-900"
+                          htmlFor="candidates"
+                          className="font-medium text-gray-700"
                         >
-                          Same as email
+                          Fully Booked
                         </label>
-                      </div>
-                      <div className="flex items-center gap-x-3">
-                        <input
-                          id="push-nothing"
-                          name="push-notifications"
-                          type="radio"
-                          className="h-4 w-4 border-gray-300 text-indigo-600 focus:ring-indigo-600"
-                        />
-                        <label
-                          htmlFor="push-nothing"
-                          className="block text-sm font-medium leading-6 text-gray-900"
-                        >
-                          No push notifications
-                        </label>
+                        <p className="text-gray-500">
+                          Get notified when the event is fully booked.
+                        </p>
                       </div>
                     </div>
-                  </fieldset>
+                  </div>
                 </div>
               </div>
             </div>
 
-            <div className="mt-6 flex items-center justify-end gap-x-6">
-              <button
-                type="button"
-                className="text-medium font-semibold leading-6 text-gray-900"
-              >
-                Cancel
-              </button>
-              <button
-                type="submit"
-                className="text-medium rounded-md bg-indigo-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
-              >
-                Create
-              </button>
+            <div className="mt-8">
+              <div className="sm:col-span-2 sm:col-start-4 flex justify-between">
+                <button
+                  type="submit"
+                  className="inline-flex justify-center py-3 px-8 border border-transparent shadow-sm text-base font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+                >
+                  Create Event
+                </button>
+              </div>
             </div>
           </form>
         </div>

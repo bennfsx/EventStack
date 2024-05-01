@@ -41,6 +41,7 @@ function App() {
   }, []); // Include checkSession and user in the dependencies array
 
   useEffect(() => {
+    checkSession();
     document.querySelector("html").style.scrollBehavior = "auto";
     window.scroll({ top: 0 });
     document.querySelector("html").style.scrollBehavior = "";
