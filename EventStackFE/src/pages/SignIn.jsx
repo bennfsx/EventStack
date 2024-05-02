@@ -54,7 +54,7 @@ function SignIn() {
     } catch (error) {
       if (error.response && error.response.status === 400) {
         console.error("User account not found:", error.response.data);
-        setLoginError("Invalid username or password");
+        setLoginError("Invalid email or password");
       } else {
         console.error("Error during login:", error.response);
         setLoginError("Failed to log in");

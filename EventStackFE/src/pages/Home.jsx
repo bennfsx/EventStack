@@ -7,6 +7,7 @@ import FeaturesBlocks from "../partials/FeaturesBlocks";
 // import Testimonials from '../partials/Testimonials';
 // import Newsletter from '../partials/Newsletter';
 import Footer from "../partials/Footer";
+import AboutUs from "../partials/AboutUs";
 
 function Home() {
   return (
@@ -25,6 +26,8 @@ function Home() {
       </main>
 
       {/*  Site footer */}
+      <AboutUs />
+
       <Footer />
     </div>
   );
