@@ -1,7 +1,7 @@
 const express = require("express");
 const router = express.Router();
 const multer = require("multer");
-const {} = require("../middleware/authMiddleware");
+const { authAdmin } = require("../middleware/authMiddleware");
 
 const storage = multer.memoryStorage();
 const upload = multer({ storage: storage });
@@ -23,7 +23,7 @@ const {
 
 router.put("/createevent", createEvent);
 router.post("/getallevent", getAllEvent);
-router.delete("/deleteevent/:eventId", deleteEventById);
+router.delete("/deleteevent/:eventId", authAdmin, deleteEventById);
 router.patch("/updatebyid/:eventId", updateEventById);
 router.post("/geteventbyid/:eventId", getEventById);
 router.put("/reserveeventbyid/:eventId", reserveEventById);
