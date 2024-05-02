@@ -179,6 +179,55 @@ const updateEventById = async (req, res) => {
   }
 };
 
+const reserveEventById = async (req, res) => {
+  try {
+    const eventId = req.params.eventid;
+    const userId = req.params.userid;
+
+    // Check if the event exists
+    const event = await pool.query("SELECT * FROM event WHERE eventid = $1", [
+      eventId,
+    ]);
+    if (event.rows.length === 0) {
+      return res.status(404).json({ error: "Event not found" });
+    }
+
+    // Check if the user exists
+    const user = await pool.query("SELECT * FROM user WHERE userid = $1", [
+      userId,
+    ]);
+    if (user.rows.length === 0) {
+      return res.status(404).json({ error: "User not found" });
+    }
+
+    const eventCapacity = event.rows[0].eventseatcapacity;
+    const reservedSeats = event.rows[0].reservedseats;
+    const currentReservedSeats = reservedSeats - req.body.quantity;
+
+    // Check if there are enough available seats
+    if (currentReservedSeats <= eventCapacity) {
+      // Update the event table with the new number of reserved seats
+      await pool.query(
+        "UPDATE event SET reservedseats = $1 WHERE eventid = $2",
+        [currentReservedSeats, eventId]
+      );
+
+      // Insert booking details into the bookings table
+      await pool.query(
+        "INSERT INTO bookings (eventid, userid, quantity) VALUES ($1, $2, $3)",
+        [eventId, userId, req.body.quantity]
+      );
+
+      res.status(200).json({ message: "Reservation successful" });
+    } else {
+      res.status(400).json({ error: "Event is full" });
+    }
+  } catch (error) {
+    console.error("Error reserving event:", error);
+    res.status(500).json({ error: "Internal server error" });
+  }
+};
+
 module.exports = {
   createEvent,
   uploadToGCP,
@@ -187,4 +236,5 @@ module.exports = {
   updateEventById,
   uploadAsset,
   getEventById,
+  reserveEventById,
 };

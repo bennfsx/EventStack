@@ -14,6 +14,7 @@ const {
   updateEventById,
   uploadAsset,
   getEventById,
+  reserveEventById,
 } = require("../controllers/eventController");
 
 //Patch
@@ -25,7 +26,7 @@ router.post("/getallevent", getAllEvent);
 router.delete("/deleteevent/:eventId", deleteEventById);
 router.patch("/updatebyid/:eventId", updateEventById);
 router.post("/geteventbyid/:eventId", getEventById);
-
+router.post("/reserveeventbyid/:eventId", reserveEventById);
 router.post("/upload-image/:eventid", upload.single("image"), uploadAsset);
 
 //Delete
