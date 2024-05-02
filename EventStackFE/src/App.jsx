@@ -65,10 +65,16 @@ function App() {
           path="/findevents/individualevent"
           element={<IndividualEvent />}
         />
+        <Route
+          path="/findevents/individualevent/:eventId"
+          element={<IndividualEvent />}
+        />{" "}
+        {/* Update the route path to include the parameter eventId */}
         {/* Routes for different user types */}
         {/* <Route path="/eventorganizer" element={<EventOrgHome />} />
         <Route path="/eventorganizer/createevent" element={<CreateEvent />} />
         <Route path="/eventorganizer/myevents" element={<MyEvents />} /> */}
+        <Route path="/userprofile" element={<UserProfile />} />
       </Routes>
     );
   } else if (user.usertype === "eventorganizer") {
@@ -87,6 +93,11 @@ function App() {
           path="/findevents/individualevent"
           element={<IndividualEvent />}
         />
+        <Route
+          path="/findevents/individualevent/:eventId"
+          element={<IndividualEvent />}
+        />{" "}
+        {/* Update the route path to include the parameter eventId */}
         {/* Routes for different user types */}
         <Route path="/eventorganizer" element={<EventOrgHome />} />
         <Route path="/eventorganizer/createevent" element={<CreateEvent />} />
@@ -109,9 +120,10 @@ function App() {
           element={<QRCodePage />}
         />
         <Route
-          path="/findevents/individualevent"
+          path="/findevents/individualevent/:eventid"
           element={<IndividualEvent />}
         />
+
         {/* Routes for different user types */}
         {/* <Route path="/eventorganizer" element={<EventOrgHome />} />
         <Route path="/eventorganizer/createevent" element={<CreateEvent />} />

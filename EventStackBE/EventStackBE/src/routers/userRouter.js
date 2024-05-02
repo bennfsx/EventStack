@@ -15,7 +15,7 @@ const {
 // router.patch("/update", authUser, updateUser);
 // router.patch("/update/:id", updateUserById);
 router.get("/getuser", authUser, getUsers);
-router.patch("/updateeventorg/:userid", authEventOrg, updateEventOrg);
+router.patch("/updateeventorg/:userid", updateEventOrg);
 router.get("/getorganizer/:userid", getEventOrgById);
 
 //Delete

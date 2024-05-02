@@ -126,9 +126,9 @@ function HeroHome() {
           </Carousel>*/}
             <img
               className="mx-auto"
-              src={HeroImage}
-              width="768"
-              height="432"
+              src="https://media.giphy.com/media/1LenDNBcd8sbeBJBlq/giphy.gif?cid=790b7611ytapb3kg76ebb6821q52uehbkq0nco4g0hmy8tbn&ep=v1_gifs_search&rid=giphy.gif&ct=g"
+              width="850  "
+              height="600"
               alt="Hero"
             />
           </div>

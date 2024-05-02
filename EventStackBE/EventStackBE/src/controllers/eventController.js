@@ -115,6 +115,25 @@ const getAllEvent = async (req, res) => {
   }
 };
 
+const getEventById = async (req, res) => {
+  const eventId = req.params.eventId; // Assuming eventId is passed in the request parameters
+
+  try {
+    const event = await pool.query("SELECT * FROM EVENT WHERE eventid = $1", [
+      eventId,
+    ]);
+
+    if (event.rows.length === 0) {
+      return res.status(404).json({ error: "Event not found" });
+    }
+
+    res.status(200).json({ event: event.rows[0] });
+  } catch (error) {
+    console.error("Error getting event:", error);
+    res.status(500).json({ error: "Failed to get event" });
+  }
+};
+
 const deleteEventById = async (req, res) => {
   const eventId = req.params.eventId; // Assuming eventId is passed in the request parameters
 
@@ -167,4 +186,5 @@ module.exports = {
   deleteEventById,
   updateEventById,
   uploadAsset,
+  getEventById,
 };

@@ -12,12 +12,13 @@ function CreateEvent() {
   const [eventDescription, setEventDescription] = useState("");
   const [datetime12h, setDateTime12h] = useState("");
   const [previewImage, setPreviewImage] = useState(null);
-  const [eventSeat, setEventSeat] = useState("");
+  // const [eventSeat, setEventSeat] = useState("");
+  const [eventseatcapacity, setEventSeatCapacity] = useState("");
   const [launchDate, setLaunchDate] = useState("");
-  const [eventVenue, setEventVenue] = useState("");
+  const [eventvenue, setEventVenue] = useState("");
   const [city, setCity] = useState("");
   const [state, setState] = useState("");
-  const [eventAddress, setEventAddress] = useState("");
+  const [eventaddress, setEventAddress] = useState("");
   const [postalCode, setPostalCode] = useState("");
   const [isEventCreated, setIsEventCreated] = useState(false);
   const [eventNameError, setEventNameError] = useState("");
@@ -43,34 +44,43 @@ function CreateEvent() {
   const handleEventCreation = async (event) => {
     event.preventDefault();
 
-    const formData = new FormData();
-    formData.append("eventname", eventName);
-    formData.append("eventdescription", eventDescription);
-    formData.append(
-      "eventdatetime",
-      format(datetime12h, "yyyy-MM-dd HH:mm:ss")
-    );
-    formData.append("eventseatcapacity", eventSeat);
-    formData.append("eventlaunchdate", format(launchDate, "yyyy-MM-dd"));
-    formData.append("eventvenue", eventVenue);
-    formData.append("eventaddress", eventAddress);
-    formData.append("city", city);
-    formData.append("state", state);
-    formData.append("postalcode", postalCode);
+    // const formData = new FormData();
+    // formData.append("eventname", eventName);
+    // formData.append("eventdescription", eventDescription);
+    // formData.append(
+    //   "eventdatetime",
+    //   format(datetime12h, "yyyy-MM-dd HH:mm:ss")
+    // );
+    // formData.append("eventseatcapacity", eventSeat);
+    // formData.append("eventlaunchdate", format(launchDate, "yyyy-MM-dd"));
+    // formData.append("eventvenue", eventVenue);
+    // formData.append("eventaddress", eventAddress);
+    // formData.append("city", city);
+    // formData.append("state", state);
+    // formData.append("postalcode", postalCode);
+
+    const requestData = {
+      eventname: eventName,
+      eventdescription: eventDescription,
+      eventdatetime: format(datetime12h, "yyyy-MM-dd HH:mm:ss"),
+      eventseatcapacity: eventseatcapacity,
+      eventlaunchdate: format(launchDate, "yyyy-MM-dd"),
+      eventvenue: eventvenue,
+      eventaddress: eventaddress,
+      city: city,
+      state: state,
+      postalcode: postalCode,
+    };
 
     try {
-      const response = await axiosAPI.put("/api/createevent", formData, {
-        headers: {
-          "Content-Type": "multipart/form-data",
-        },
-      });
+      const response = await axiosAPI.put("/api/createevent", requestData);
 
       // After event creation, upload queued images
       // const eventid = response.data.eventid;
       // await uploadQueuedImages(eventid);
 
       setIsEventCreated(true);
-      console.log(response);
+      console.log({ response }); // Wrap response in curly braces
     } catch (error) {
       if (error.response && error.response.status === 409) {
         setEventNameError("Event name already exists");
@@ -279,14 +289,14 @@ function CreateEvent() {
                       <div className="flex rounded-md shadow-sm ring-1 ring-inset ring-gray-300 focus-within:ring-2 focus-within:ring-inset focus-within:ring-indigo-600 sm:max-w-md">
                         <input
                           type="text"
-                          name="eventCapacity"
-                          id="eventCapacity"
+                          name="eventseatcapacity"
+                          id="eventseatcapacity"
                           className="block flex-1 border-0 bg-transparent py-1.5 pl-1 text-gray-900 placeholder:text-gray-400 focus:ring-0 sm:text-sm sm:leading-6"
                           placeholder="250"
                           style={{ fontSize: "17px" }}
-                          value={eventSeat}
+                          value={eventseatcapacity}
                           required
-                          onChange={(e) => setEventSeat(e.target.value)}
+                          onChange={(e) => setEventSeatCapacity(e.target.value)}
                         />
                       </div>
                     </div>
@@ -345,12 +355,12 @@ function CreateEvent() {
                     </label>
                     <div className="mt-2">
                       <select
-                        id="eventVenue"
-                        name="eventVenue"
-                        autoComplete="eventVenue-name"
+                        id="eventvenue"
+                        name="eventvenue"
+                        autoComplete="eventvenue-name"
                         className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:max-w-xs sm:text-sm sm:leading-6"
                         style={{ fontSize: "17px" }}
-                        value={eventVenue}
+                        value={eventvenue}
                         onChange={(e) => setEventVenue(e.target.value)}
                         required
                       >
@@ -381,12 +391,12 @@ function CreateEvent() {
                     <div className="mt-2">
                       <input
                         type="text"
-                        name="eventAddress"
-                        id="eventAddress"
-                        autoComplete="eventAddress"
+                        name="eventaddress"
+                        id="eventaddress"
+                        autoComplete="eventaddress"
                         className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                         style={{ fontSize: "17px" }}
-                        value={eventAddress}
+                        value={eventaddress}
                         required
                         onChange={(e) => setEventAddress(e.target.value)}
                       />
