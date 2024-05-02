@@ -12,6 +12,7 @@ function IndividualEvent() {
   const { user } = useUser();
 
   useEffect(() => {
+    console.log(user);
     const fetchEventById = async () => {
       try {
         const response = await axiosAPI.post(`/api/geteventbyid/${eventId}`);
@@ -44,8 +45,7 @@ function IndividualEvent() {
 
   const confirmBooking = async () => {
     try {
-      // Make a POST request to the backend endpoint with additional details
-      const response = await axiosAPI.post(`/api/reserveEventById/${eventId}`, {
+      const response = await axiosAPI.put(`/api/reserveeventbyid/${eventId}`, {
         userId: user.userId,
         quantity: quantity,
         // venueId: event.venueId,

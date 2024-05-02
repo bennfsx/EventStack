@@ -181,8 +181,8 @@ const updateEventById = async (req, res) => {
 
 const reserveEventById = async (req, res) => {
   try {
-    const eventId = req.params.eventid;
-    const userId = req.params.userid;
+    const eventId = req.params.eventId;
+    const userId = req.params.userId;
 
     // Check if the event exists
     const event = await pool.query("SELECT * FROM event WHERE eventid = $1", [
@@ -193,15 +193,15 @@ const reserveEventById = async (req, res) => {
     }
 
     // Check if the user exists
-    const user = await pool.query("SELECT * FROM user WHERE userid = $1", [
+    const users = await pool.query("SELECT * FROM users WHERE userid = $1", [
       userId,
     ]);
-    if (user.rows.length === 0) {
+    if (users.rows.length === 0) {
       return res.status(404).json({ error: "User not found" });
     }
 
     const eventCapacity = event.rows[0].eventseatcapacity;
-    const reservedSeats = event.rows[0].reservedseats;
+    // const reservedSeats = event.rows[0].eventseat;
     const currentReservedSeats = reservedSeats - req.body.quantity;
 
     // Check if there are enough available seats
