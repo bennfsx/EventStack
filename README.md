@@ -18,6 +18,39 @@
 - Role-Based Access Control: Different access levels for organizers, attendees, and administrators.
 - Responsive Design: Mobile-friendly interface for easy access on various devices.
 
+## File
+```shell
+.
+└── frontend
+    ├── public
+    │   ├── index.html
+    │   ├── favicon.ico
+    │   └── ...
+    ├── src   
+    │   ├── context
+    │   ├── css
+    │   ├── eventOrganizer
+    │   │   ├── components
+    │   │   ├── pages
+    │   │   ├── events
+    │   │   ├── layout
+    │   │   └── user
+    │   ├── hooks
+    │   ├── images
+    │   ├── pages
+    │   │   ├── auth
+    │   │   ├── events
+    │   │   └── user
+    │   └── utils
+    ├── axiosAPI.js
+    ├── .gitignore
+    ├── package-lock.json
+    ├── package.json 
+    ├── postcss.config.js
+    └── README.md
+
+```
+
 ## Getting Started
 Before you begin, ensure you have met the following requirements:
 - Node.js
