@@ -142,16 +142,18 @@ Before you begin, ensure you have met the following requirements:
 **Event-Organizer Dashboard Page**
 ![image](https://github.com/bennfsx/EventStack/assets/44813216/aec3ee37-7eee-4bcb-b42b-107db26bd3da)
 
-**Individual Event Page**
-![image](https://github.com/bennfsx/EventStack/assets/44813216/65439703-623b-4b48-a0c2-dde4b0c2ef0a)
+**Event-Organizer Event Creation Page**
+![image](https://github.com/bennfsx/EventStack/assets/44813216/8642be20-a0b5-46fb-a882-26a83f63dc56)
 
 **Event-Organizer Event-Controller Page**
 ![image](https://github.com/bennfsx/EventStack/assets/44813216/5388158e-54bf-48a4-b260-ed9cff2e36a5)
 
-**QR Code**
+**Individual Event Page**
+![image](https://github.com/bennfsx/EventStack/assets/44813216/65439703-623b-4b48-a0c2-dde4b0c2ef0a)
+
+
+**Generated QR Code Page**
 ![image](https://github.com/bennfsx/EventStack/assets/44813216/137dc810-2fb3-476d-9c06-42eda516415a)
-
-
 
 
 ## References
