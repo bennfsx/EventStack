@@ -72,7 +72,23 @@
 ## Getting Started
 Before you begin, ensure you have met the following requirements:
 - Node.js
-- 
+
+
+
+### Frontend Installation:
+
+1. **Clone the Repository:**
+   ```shell
+   git clone https://github.com/bennfsx/EventStack.git
+2. **Navigate to the Frontend Directory:**
+   cd EventStack/frontend
+3. **Install Dependencies:**
+   npm install
+4. **Start the Development Server:**
+   npm run dev
+5. **Access the Application:**
+   Open your browser and visit http://localhost:6001
+```
 
 
 ## Screenshots
