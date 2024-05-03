@@ -75,7 +75,7 @@ Before you begin, ensure you have met the following requirements:
 
 
 
-### Frontend Installation:
+## Frontend Installation:
 
 1. **Clone the Repository:**
    ```shell
@@ -83,7 +83,7 @@ Before you begin, ensure you have met the following requirements:
    ```
 2. **Navigate to the Frontend Directory:**
    ```shell
-   cd EventStack/frontend
+   cd EventStack/EventStackFE
    ```
 4. **Install Dependencies:**
    ```shell
@@ -97,7 +97,34 @@ Before you begin, ensure you have met the following requirements:
    ```shell
    Open your browser and visit http://localhost:6001
     ```
-
+## Backend Installation:
+1. **Clone the Repository:**
+   ```shell
+   git clone https://github.com/bennfsx/EventStack.git
+   ```
+2. **Navigate to the Frontend Directory:**
+   ```shell
+   cd EventStack/EventStackBE
+   ```
+3. **Create a .env file:**
+   ```shell
+   cp .env.example .env
+   ```
+4. ***Update the .env file with your environment variables.**
+   
+5. **Install Dependencies:**
+   ```shell
+   npm install
+   ```
+6. **Start the Development Server:**
+   ```shell
+   npm run dev
+   ```
+7. **Access the Application:**
+   ```shell
+   Open your browser and visit http://localhost:6001
+    ```
+8. **The backend server will be running on http://localhost:5000.**
 
 ## Screenshots
 
