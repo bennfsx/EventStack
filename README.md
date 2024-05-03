@@ -11,6 +11,13 @@
 ## Architecture Design
 ![image](https://github.com/bennfsx/EventStack/assets/44813216/896ce012-8937-4cfc-a806-bcc448c07230)
 
+## Features
+- User Authentication: Secure user authentication system for organizers and attendees.
+- Event Management: Organizers can create, update, and delete events.
+- Booking System: Attendees can browse events and book tickets.
+- Role-Based Access Control: Different access levels for organizers, attendees, and administrators.
+- Responsive Design: Mobile-friendly interface for easy access on various devices.
+
 ## Getting Started
 Before you begin, ensure you have met the following requirements:
 - Node.js
