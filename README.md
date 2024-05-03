@@ -80,19 +80,23 @@ Before you begin, ensure you have met the following requirements:
 1. **Clone the Repository:**
    ```shell
    git clone https://github.com/bennfsx/EventStack.git
+   ```
 2. **Navigate to the Frontend Directory:**
   ```shell
    cd EventStack/frontend
+```
 4. **Install Dependencies:**
    ```shell
    npm install
+   ```
 5. **Start the Development Server:**
    ```shell
    npm run dev
+   ```
 6. **Access the Application:**
    ```shell
    Open your browser and visit http://localhost:6001
-
+```
 
 
 ## Screenshots
