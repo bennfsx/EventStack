@@ -5,7 +5,14 @@
 ![image](https://github.com/bennfsx/EventStack/assets/44813216/455d21d9-8e46-4a9c-9611-13295646a915)
 
 ## Architecture Design
-![image](https://github.com/bennfsx/EventStack/assets/44813216/896ce012-8937-4cfc-a806-bcc448c07230)
+![image](https://github.com/bennfsx/EventStack/assets/44813216/c89c7b8f-b20d-492f-9c1c-a34bfd593e28)
+
+## Activity Diagram for Event-Organizer
+![image](https://github.com/bennfsx/EventStack/assets/44813216/1126f9a1-e3e3-4e40-a3e2-9d1df20f4eaf)
+
+## Activity Diagram For Event-Attendee
+![image](https://github.com/bennfsx/EventStack/assets/44813216/be31b3df-95cf-4134-ac96-cca2b0772ceb)
+
 
 ## Features
 - User Authentication: Secure user authentication system for organizers and attendees.
