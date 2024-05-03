@@ -1,4 +1,4 @@
-# EventStack - GA Project 4
+# EventStack - A General Assembly Project
 
 ## Live demo
 
@@ -129,6 +129,28 @@ Before you begin, ensure you have met the following requirements:
 ## Screenshots
 **Landing Page**
 ![image](https://github.com/bennfsx/EventStack/assets/44813216/56f9d265-75ff-489d-adcb-bbec0e859b44)
+
+**Login Page**
+![image](https://github.com/bennfsx/EventStack/assets/44813216/496dc185-5107-43ff-9684-7cd3146a86f4)
+
+**User Selection**
+![image](https://github.com/bennfsx/EventStack/assets/44813216/a5913877-ad81-4781-bae1-17c203dba992)
+
+**Event-Organizer Registration Page**
+![image](https://github.com/bennfsx/EventStack/assets/44813216/c68d98c9-42cf-45d5-a34d-fb58dc9a3866)
+
+**Event-Organizer Dashboard Page**
+![image](https://github.com/bennfsx/EventStack/assets/44813216/aec3ee37-7eee-4bcb-b42b-107db26bd3da)
+
+**Individual Event Page**
+![image](https://github.com/bennfsx/EventStack/assets/44813216/65439703-623b-4b48-a0c2-dde4b0c2ef0a)
+
+**Event-Organizer Event-Controller Page**
+![image](https://github.com/bennfsx/EventStack/assets/44813216/5388158e-54bf-48a4-b260-ed9cff2e36a5)
+
+**QR Code**
+![image](https://github.com/bennfsx/EventStack/assets/44813216/137dc810-2fb3-476d-9c06-42eda516415a)
+
 
 
 
