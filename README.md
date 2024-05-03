@@ -18,7 +18,7 @@
 - Role-Based Access Control: Different access levels for organizers, attendees, and administrators.
 - Responsive Design: Mobile-friendly interface for easy access on various devices.
 
-## File
+## Frontend Directory Structure:
 ```shell
 .
 └── frontend
@@ -50,6 +50,24 @@
     └── README.md
 
 ```
+## Backend Directory Structure:
+```shell
+.
+└── backend
+    ├── controllers
+    ├── middleware
+    ├── routes
+    ├── services
+    ├── config
+    ├── db
+    ├── index.js
+    ├── .env.example
+    ├── .gitignore
+    ├── package-lock.json
+    ├── package.json
+    └── README.md
+```
+
 
 ## Getting Started
 Before you begin, ensure you have met the following requirements:
