@@ -1,7 +1,7 @@
 const express = require("express");
 const router = express.Router();
 const multer = require("multer");
-const { authEventOrg, authAdmin } = require("../middleware/authMiddleware");
+const { authAdmin } = require("../middleware/authMiddleware");
 
 const storage = multer.memoryStorage();
 const upload = multer({ storage: storage });
@@ -23,15 +23,10 @@ const {
 
 router.put("/createevent", authEventOrg, createEvent);
 router.post("/getallevent", getAllEvent);
-router.delete(
-  "/deleteevent/:eventId",
-  authEventOrg,
-  authAdmin,
-  deleteEventById
-);
-router.patch("/updatebyid/:eventId", authEventOrg, authAdmin, updateEventById);
+router.delete("/deleteevent/:eventId", authAdmin, deleteEventById);
+router.patch("/updatebyid/:eventId", updateEventById);
 router.post("/geteventbyid/:eventId", getEventById);
-router.post("/reserveeventbyid/:eventId", reserveEventById);
+router.put("/reserveeventbyid/:eventId", reserveEventById);
 router.post("/upload-image/:eventid", upload.single("image"), uploadAsset);
 
 //Delete
