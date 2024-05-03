@@ -95,7 +95,7 @@ Before you begin, ensure you have met the following requirements:
    ```
 6. **Access the Application:**
    ```shell
-   Open your browser and visit http://localhost:6001
+   Open your browser and visit http://localhost:5173
     ```
 ## Backend Installation:
 1. **Clone the Repository:**
@@ -127,6 +127,9 @@ Before you begin, ensure you have met the following requirements:
 8. **The backend server will be running on http://localhost:5000.**
 
 ## Screenshots
+**Landing Page**
+![image](https://github.com/bennfsx/EventStack/assets/44813216/56f9d265-75ff-489d-adcb-bbec0e859b44)
+
 
 
 ## References
