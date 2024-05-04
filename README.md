@@ -8,8 +8,9 @@ EventStack is a comprehensive event management platform designed to revolutioniz
 - React
 - Tailwind
 - Material UI
-- express
-- Google Cloud Functions
+- Express
+- Google Cloud Functions (Google Storage Bucket, SQL)
+
 
 ## Tech Stack
 ![image](https://github.com/bennfsx/EventStack/assets/44813216/455d21d9-8e46-4a9c-9611-13295646a915)
