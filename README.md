@@ -84,8 +84,8 @@ EventStack is a comprehensive event management platform designed to revolutioniz
 
 ## Getting Started
 Before you begin, ensure you have met the following requirements:
-- Node.js
-
+- Node.js (npm)
+- PostgreSQL
 
 
 ## Frontend Installation:
