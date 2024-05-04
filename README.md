@@ -1,5 +1,8 @@
 # EventStack - A General Assembly Project
 
+## Introduction 
+EventStack is a comprehensive event management platform designed to revolutionize the way events are organized and attended. With a mission to eliminate ticket scalping, streamline event planning, and enhance attendee experiences, EventStack empowers organizers, vendors, and attendees alike.
+
 
 ## Technologies Used
 ![image](https://github.com/bennfsx/EventStack/assets/44813216/455d21d9-8e46-4a9c-9611-13295646a915)
