@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { useParams } from "react-router-dom";
 import QRCode from "qrcode.react";
 import Header from "../partials/Header";
+import axios from 'axios';
 
 const QRCodePage = () => {
   const { eventId, eventName } = useParams();
@@ -12,7 +13,19 @@ const QRCodePage = () => {
   // Function to generate a new QR code value
   const generateNewQRCode = () => {
     const newQRValue = `Event ID: ${eventId} - ${Date.now()}`;
-    setQrValue(newQRValue);
+	axios.post('https://asia-southeast1-qrfyp2024.cloudfunctions.net/fyp-api/createcode', {
+		codeName: eventName,
+		codeDesc: 'Entry QR for ' + eventName,
+		codeType: 1
+	})
+	.then(function (response) {
+		if (response.status == 200){
+			setQrValue(response.data);
+		}
+	})
+	.catch(function (error) {
+		console.log(error);
+	});    
   };
 
   return (
